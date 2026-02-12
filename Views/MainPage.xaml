@@ -14,7 +14,7 @@
                 SemanticProperties.Description="dot net bot in a submarine number ten" />
 
             <Label
-                Text="Hello, World!!"
+                Text="Main page"
                 Style="{StaticResource Headline}"
                 SemanticProperties.HeadingLevel="Level1" />
 
@@ -35,8 +35,7 @@
                 x:Name="InsertNewTempTask"
                 Clicked="InsertNewTempTask_OnClicked"/>
             <Label
-                x:Name="Body"
-                Background="#333"/>
+                x:Name="Body"/>
             
         </VerticalStackLayout>
     </ScrollView>

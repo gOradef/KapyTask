@@ -7,17 +7,21 @@
     Title="KapyTask">
 
     <TabBar>
-        <Tab Title="Current"
+        <Tab Title="Actual"
              StyleClass="TabbedPage"
             >
             <ShellContent ContentTemplate="{DataTemplate views:CatsPage}"
                                   Route="CatsPage"/>
         </Tab>
         
-        <Tab Title="Home"
+        <Tab Title="All"
         >
             <ShellContent ContentTemplate="{DataTemplate views:MainPage}"
                                   Route="MainPage"/>
+        </Tab>
+        <Tab
+            Title="Settings"
+            Icon="settings"><ShellContent ContentTemplate="{DataTemplate views:SettingsPage}"/>
         </Tab>
     </TabBar>
 </Shell>

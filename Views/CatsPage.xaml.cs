@@ -1,10 +1,10 @@
 namespace KapyTask.Views;
 
 
-    public partial class CatsPage : ContentPage
+public partial class CatsPage : ContentPage
+{
+    public CatsPage()
     {
-        public CatsPage()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
+}

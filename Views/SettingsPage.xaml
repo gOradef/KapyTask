@@ -1,19 +1,25 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="KapyTask.Views.CatsPage">
+             x:Class="KapyTask.Views.SettingsPage">
 
     <ScrollView>
         <VerticalStackLayout
             Padding="30,0"
             Spacing="25">
+            <Image
+                Source="dotnet_bot.png"
+                HeightRequest="185"
+                Aspect="AspectFit"
+                SemanticProperties.Description="dot net bot in a submarine number ten" />
+
             <Label
-                Text="Cats page"
+                Text="Настройки"
                 Style="{StaticResource Headline}"
                 SemanticProperties.HeadingLevel="Level1" />
 
             <Label
-                x:Name="Body"/>
+                Text="Оч много настроек))"/>
             
         </VerticalStackLayout>
     </ScrollView>
