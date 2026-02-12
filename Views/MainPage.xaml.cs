@@ -2,7 +2,7 @@
 using KapyTask.Database;
 using KapyTask.Database.Tables;
 
-namespace KapyTask;
+namespace KapyTask.Views;
 
 public partial class MainPage : ContentPage
 {

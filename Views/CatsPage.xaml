@@ -1,7 +1,7 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="KapyTask.MainPage">
+             x:Class="KapyTask.Views.CatsPage">
 
     <ScrollView>
         <VerticalStackLayout
@@ -24,16 +24,6 @@
                 SemanticProperties.HeadingLevel="Level2"
                 SemanticProperties.Description="Welcome to dot net Multi platform App U I" />
 
-            <Button
-                x:Name="SetTasksToBody"
-                Text="Click me to set tasks" 
-                SemanticProperties.Hint="Counts the number of times you click"
-                Clicked="OnSetTasksClicked"
-                HorizontalOptions="Fill" />
-            <Button
-                Text="Insert new task"
-                x:Name="InsertNewTempTask"
-                Clicked="InsertNewTempTask_OnClicked"/>
             <Label
                 x:Name="Body"
                 Background="#333"/>

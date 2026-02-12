@@ -3,12 +3,21 @@
     x:Class="KapyTask.AppShell"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:local="clr-namespace:KapyTask"
+    xmlns:views="clr-namespace:KapyTask.Views"
     Title="KapyTask">
 
-    <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />
-
+    <TabBar>
+        <Tab Title="Current"
+             StyleClass="TabbedPage"
+            >
+            <ShellContent ContentTemplate="{DataTemplate views:CatsPage}"
+                                  Route="CatsPage"/>
+        </Tab>
+        
+        <Tab Title="Home"
+        >
+            <ShellContent ContentTemplate="{DataTemplate views:MainPage}"
+                                  Route="MainPage"/>
+        </Tab>
+    </TabBar>
 </Shell>
