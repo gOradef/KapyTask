@@ -1,4 +1,3 @@
-using System.ComponentModel.DataAnnotations.Schema;
 using SQLite;
 
 namespace KapyTask.Database.Tables;
@@ -10,17 +9,20 @@ public class KTask
 {
     [PrimaryKey, AutoIncrement]
     public int Id { get; set; }
+
+    // Store only the Discipline ID
+    [Indexed]
     public int? DisciplineId { get; set; }
-    public string Name { get; set; }
+    
+    [NotNull]
+    public string Name { get; set; } = string.Empty;
+    
     public string? Description { get; set; }
     
-    public DateTime? PlannedTimeTodo { get; set; }
-    public DateTime? Deadline { get; set; }
+    public DateTime? PlannedTimeTodo { get; set; } // sets user as option
+    public DateTime? Deadline { get; set; } // gets from Discipline
     
-    public KTask() {}
-
-    public KTask(string name)
-    {
-        Name = name;
-    }
+    // Navigation property (not stored)
+    [Ignore]
+    public KDiscipline? Discipline { get; set; }
 }

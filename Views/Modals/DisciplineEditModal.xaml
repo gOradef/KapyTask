@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="KapyTask.Views.DisciplineEditModal">
+            
+    <NavigationPage.Title>Редактирование дисциплин</NavigationPage.Title>
+    
+    <ScrollView>
+        <VerticalStackLayout
+            Padding="30"
+            Spacing="20">
+
+            <Label
+                Text="Дисциплины"
+                Style="{StaticResource Headline}" Margin="0, 20, 0, -20"/>
+            <Label x:Name="DisciplinenCountLabel" HorizontalTextAlignment="Center"/>
+            <Button Text="Добавить новую" x:Name="ButtonNewDiscipline" Clicked="ButtonNewDiscipline_OnClicked"/>
+            <Entry Placeholder="Введите название новой дисциплины" x:Name="EntryNameNewDiscipline" Text="{Binding NewDiscipline_Name}"/>
+            <Label TextColor="Gray" HorizontalTextAlignment="Center" Text="Рекомендуется формат вида: `Матан_Л` / `Матан_П` / `Матан_Лаб` и тд"/>
+            <Label 
+                x:Name="NewDisciplineAddedStatusLabel" 
+                TextColor="SeaGreen" 
+                Text="{Binding NewDiscipline_Name, StringFormat='Дисциплина {0} успешно добавлена.'}" 
+                IsVisible="False"/>
+            
+            <ListView ItemsSource="{Binding Disciplines}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <ViewCell.View>
+                                <Grid ColumnDefinitions="*, *, Auto" Padding="10, 4">
+                                    <Label Grid.Column="0"
+                                           Text="{Binding Name, StringFormat='{0}'}" 
+                                           VerticalOptions="Center"/>
+                                    <Label Grid.Column="1"
+                                           Text="{Binding Id, StringFormat='Id: {0}'}" 
+                                           TextColor="Gray"
+                                           VerticalOptions="Center"
+                                           />
+                                    <Button Grid.Column="2" 
+                                            Text="🗑️"
+                                            BackgroundColor="IndianRed"
+                                            Clicked="ButtonDeleteItem_OnClicked"
+                                            HorizontalOptions="End"/>
+                                </Grid>                            
+                            </ViewCell.View>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

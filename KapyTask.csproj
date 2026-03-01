@@ -24,10 +24,10 @@
         <ApplicationTitle>KapyTask</ApplicationTitle>
 
         <!-- App Identifier -->
-        <ApplicationId>com.companyname.kapytask</ApplicationId>
+        <ApplicationId>com.goradef.kapytask</ApplicationId>
 
         <!-- Versions -->
-        <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
+        <ApplicationDisplayVersion>0.1</ApplicationDisplayVersion>
         <ApplicationVersion>1</ApplicationVersion>
 
         <!-- To develop, package, and publish an app to the Microsoft Store, see: https://aka.ms/MauiTemplateUnpackaged -->
@@ -46,7 +46,7 @@
         <MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4"/>
 
         <!-- Splash Screen -->
-        <MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#512BD4" BaseSize="128,128"/>
+        <MauiSplashScreen Include="Resources\Splash\splash.svg" Color="White" BaseSize="256,256"/>
 
         <!-- Images -->
         <MauiImage Include="Resources\Images\*"/>
@@ -66,17 +66,28 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Compile Update="Views\CatsPage.xaml.cs">
+      <Compile Update="Views\Pages\SearchPage.xaml.cs">
+        <SubType>Code</SubType>
+        <DependentUpon>SearchPage.xaml</DependentUpon>
+      </Compile>
+      <Compile Update="Views\Pages\MainPage.xaml.cs">
+        <DependentUpon>MainPage.xaml</DependentUpon>
         <SubType>Code</SubType>
       </Compile>
-      <Compile Update="Views\MainPage.xaml.cs">
-        <DependentUpon>MainPage.xaml</DependentUpon>
+      <Compile Update="Views\Pages\SettingsPage.xaml.cs">
+        <DependentUpon>SettingsPage.xaml</DependentUpon>
         <SubType>Code</SubType>
       </Compile>
     </ItemGroup>
 
     <ItemGroup>
-      <MauiXaml Update="Views\MainPage.xaml">
+      <MauiXaml Update="Views\Pages\SearchPage.xaml">
+        <SubType>Designer</SubType>
+      </MauiXaml>
+      <MauiXaml Update="Views\Pages\MainPage.xaml">
+        <SubType>Designer</SubType>
+      </MauiXaml>
+      <MauiXaml Update="Views\Pages\SettingsPage.xaml">
         <SubType>Designer</SubType>
       </MauiXaml>
     </ItemGroup>

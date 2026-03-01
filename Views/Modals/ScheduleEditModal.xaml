@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:views="clr-namespace:KapyTask.Views"
+             xmlns:xtables="clr-namespace:KapyTask.Database.Tables"
+             x:Class="KapyTask.Views.ScheduleEditModal">
+    <NavigationPage.Title>Редактирование расписания</NavigationPage.Title>
+    <ScrollView>
+        <VerticalStackLayout
+            Padding="30"
+            Spacing="20">
+            
+            <!-- Show current schedule -->
+            <Label Text="Расписание" Style="{x:StaticResource SubHeadline}"/>
+            <VerticalStackLayout Spacing="10" HorizontalOptions="Center">
+                    
+                <!-- There is autofilling dayOfWeeks from .cs -->
+                <HorizontalStackLayout x:Name="DayOfWeekStack" HorizontalOptions="Center"/>
+                <HorizontalStackLayout HorizontalOptions="End">
+                    <Label Text="Четная неделя?" VerticalTextAlignment="Center"/>
+                    <Switch IsToggled="{Binding IsEvenSwitch}" Toggled="IsEvenWeekSwitch_OnToggled" x:DataType="views:ScheduleEditModal"/>
+                </HorizontalStackLayout>
+                
+                
+                <ScrollView Padding="10">
+                    <!-- There is autofilling schedule for dayOfWeek from .cs -->
+                    <CollectionView ItemsSource="{Binding DisplayedSchedule}" x:DataType="views:ScheduleEditModal">
+                        <CollectionView.Header>
+                            <Border Padding="10">
+                                <Grid ColumnDefinitions="*, *, auto">
+                                    <Label Grid.Column="0" Text="Дисциплина"/>
+                                    <Label Grid.Column="1" Text="Время начала"/>
+                                    <Label Grid.Column="2" Text="Удалить?"/>
+                                </Grid>
+                            </Border>
+                        </CollectionView.Header>
+                        
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="xtables:KSchedule">
+                                <Grid ColumnDefinitions="*, *, auto" ColumnSpacing="10" Padding="10">
+                                    <Label Grid.Column="0" Text="{Binding DisciplineName}" VerticalTextAlignment="Center"/>
+                                    <Label Grid.Column="1" Text="{Binding TimeOfClass}" VerticalTextAlignment="Center"/>
+                                    <Button Grid.Column="2" Text="🗑️" BackgroundColor="IndianRed"  Clicked="ButtonDeleteClassFromSchedule_OnClicked"/>
+                                </Grid>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </ScrollView>
+            </VerticalStackLayout>
+            
+            <!-- Create new class  -->
+            <Label Text="Создание нового занятия" Style="{x:StaticResource SubHeadline}"/>
+            <Border Padding="15">
+                <VerticalStackLayout Spacing="10">
+                    <Picker ItemsSource="{Binding Disciplines}" SelectedItem="{Binding SelectedDiscipline}" Title="Выберите дисциплину" ItemDisplayBinding="{Binding Name}" TextColor="ForestGreen"/>
+                    <Picker x:Name="DayOfWeekPicker" Title="Выберите день недели" SelectedItem="{Binding SelectedDayOfWeek_NewClass}"/>
+                    
+                    <Grid ColumnDefinitions="*, auto">
+                        <Label Text="Четная неделя?" Grid.Column="0"/>
+                        <CheckBox IsChecked="{Binding SelectedIsEvenWeek}" Grid.Column="1"/>
+                    </Grid>
+                    
+                    <TimePicker Time="{Binding SelectedTimeOfClass}" x:DataType="views:ScheduleEditModal"/>                    
+                    <Button Text="Добавить новое занятие" x:Name="ButtonNewDiscipline" Clicked="ButtonNewScheduleClass_OnClicked"/>
+                </VerticalStackLayout>
+            </Border>
+            
+            
+            
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

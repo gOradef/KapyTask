@@ -7,21 +7,17 @@
     Title="KapyTask">
 
     <TabBar>
-        <Tab Title="Actual"
-             StyleClass="TabbedPage"
-            >
-            <ShellContent ContentTemplate="{DataTemplate views:CatsPage}"
-                                  Route="CatsPage"/>
-        </Tab>
-        
-        <Tab Title="All"
-        >
+        <Tab Title="Текущие" Icon="icons8_home.png">
             <ShellContent ContentTemplate="{DataTemplate views:MainPage}"
-                                  Route="MainPage"/>
+                          Route="MainPage"/>
         </Tab>
-        <Tab
-            Title="Settings"
-            Icon="settings"><ShellContent ContentTemplate="{DataTemplate views:SettingsPage}"/>
+        <Tab Title="Поиск" Icon="icons8_search.png">
+            <ShellContent ContentTemplate="{DataTemplate views:SearchPage}"
+                          Route="SettingsPage"/>
+        </Tab>
+        <Tab Title="Настройки" Icon="icons8_settings.png">
+            <ShellContent ContentTemplate="{DataTemplate views:SettingsPage}"
+                          Route="SettingsPage"/>
         </Tab>
     </TabBar>
 </Shell>

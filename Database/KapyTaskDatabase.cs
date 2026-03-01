@@ -3,35 +3,36 @@ using KapyTask.Database.Tables;
 
 namespace KapyTask.Database;
 
-public class KapyTaskDatabase
+public partial class KapyTaskDatabase
 {
-    private SQLiteAsyncConnection db;
+    protected internal SQLiteAsyncConnection Db { get; private set; }
 
-    async Task Init()
+    private async Task Init()
     {
-        if (db is not null)
+        if (Db is not null)
             return;
         
-        db = new SQLiteAsyncConnection(Constants.DatabasePath, Constants.Flags);
-        var tasks = await db.CreateTableAsync<KTask>();
-        var disciplines = await db.CreateTableAsync<KDiscipline>();
+        Db = new SQLiteAsyncConnection(Constants.DatabasePath, Constants.Flags);
+        await Db.CreateTableAsync<KDiscipline>();
+        await Db.CreateTableAsync<KTask>();
+        await Db.CreateTableAsync<KSchedule>();
+    }
+    
+    protected internal async Task EnsureInitialized()
+    {
+        if (Db is null)
+            await Init();
     }
 
-    public async Task<string> GetDatabasePath()
+    public async Task<List<KDiscipline>> GetDisciplines()
     {
-        await Init();
-        return db.DatabasePath;
+        await EnsureInitialized();
+        return await Db.Table<KDiscipline>().ToListAsync();
     }
 
-    public async Task<List<KTask>> GetAllTasks()
+    public async Task InsertDiscipline(KDiscipline discipline)
     {
-        await Init();
-        return await db.Table<KTask>().ToListAsync();
-    }
-
-    public async Task<int> InsertTask(KTask task)
-    {
-        await Init();
-        return await db.InsertAsync(task);
+        await EnsureInitialized();
+        await Db.InsertAsync(discipline);
     }
 }
