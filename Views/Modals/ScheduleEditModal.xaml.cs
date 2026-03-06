@@ -1,10 +1,10 @@
-using KapyTask.Database;
-using KapyTask.Database.Tables;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using KapyTask.Database;
+using KapyTask.Database.Tables;
 
-namespace KapyTask.Views;
+namespace KapyTask.Views.Modals;
 
 public partial class ScheduleEditModal : ContentPage, INotifyPropertyChanged
 {

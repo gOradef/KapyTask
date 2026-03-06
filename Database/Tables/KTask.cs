@@ -3,7 +3,7 @@ using SQLite;
 namespace KapyTask.Database.Tables;
 
 /// <summary>
-/// For KapyTask = KTask
+/// Stands for KapyTask = KTask
 /// </summary>
 public class KTask
 {
@@ -20,7 +20,7 @@ public class KTask
     public string? Description { get; set; }
     
     public DateTime? PlannedTimeTodo { get; set; } // sets user as option
-    public DateTime? Deadline { get; set; } // gets from Discipline
+    public DateTime? Deadline { get; set; } // gets from Schedule
     
     // Navigation property (not stored)
     [Ignore]

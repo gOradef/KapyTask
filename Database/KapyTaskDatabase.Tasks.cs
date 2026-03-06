@@ -26,11 +26,38 @@ public partial class KapyTaskDatabase
             var db = await GetDb();
             return await db.Table<KTask>().ToListAsync();
         }
+
+        public async Task<List<KTask>> GetTasksWithDisciplineProperty()
+        {
+            var db = await GetDb();
+            var tasks = await db.Table<KTask>().ToListAsync();
+            var disciplines = await db.Table<KDiscipline>().ToListAsync();
+            return tasks.Join(disciplines, task => task.DisciplineId, discipline => discipline.Id,
+                (task, discipline) =>
+                {
+                    task.Discipline = discipline;
+                    return task;
+                }).ToList();
+        }
         
+        /// <summary>
+        /// Create new task if id is 0, and updates table if not
+        /// </summary>
+        /// <param name="task">Task to insert or update</param>
         public async Task InsertTask(KTask task)
         {
             var db = await GetDb();
-            await db.InsertAsync(task);
+            
+            if (task.Id == 0)
+                await db.InsertAsync(task);
+            else 
+                await db.UpdateAsync(task);
+        }
+
+        public async void DeleteTask(KTask task)
+        {
+            var db = await GetDb();
+            await db.DeleteAsync(task);
         }
     }
 

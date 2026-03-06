@@ -1,31 +1,58 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="KapyTask.Views.MainPage">
+             xmlns:xviews="clr-namespace:KapyTask.Views.Pages"
+             xmlns:xtables="clr-namespace:KapyTask.Database.Tables"
+             x:Class="KapyTask.Views.Pages.MainPage"
+             Title="Текущие задачи">
 
-    <ScrollView>
+    <ScrollView VerticalScrollBarVisibility="Never">
         <VerticalStackLayout
-            Padding="30,0"
+            Padding="10, 0, 10,30"
             Spacing="20">
+            
             <Image
                 Source="cat_halo.png"
                 HeightRequest="200"
                 Aspect="Fill" 
-                Margin="-15, -50, -15, -10"
-                />
+                Margin="-15, 0"/>
 
             <Label
-                Text="🐈‍⬛ Опмяя-eeeewh учиться 🐈"
-                Style="{StaticResource SubHeadline}" />
+                Text="Опмяя-eeeewh учиться 🐈"
+                Style="{StaticResource SubHeadline}" Padding="0, 0, 0, 10"/>
 
-            <Button
-                x:Name="SetTasksToBody"
-                Text="Set tasks" 
-                Clicked="OnSetTasksClicked"
-                HorizontalOptions="Fill" />
-            <Label
-                x:Name="Body"/>
             
+            <ListView ItemsSource="{Binding DisplayedKTasks}"
+                      x:DataType="xviews:MainPage"
+                      ItemSelected="ListViewTasks_OnItemSelected">
+    
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="xtables:KTask">
+                        <ViewCell>
+                            <ViewCell.View>
+                                <Grid ColumnDefinitions="*, *, *, auto" Padding="20,5">
+                                    <Label Grid.Column="0" Text="{Binding Name}"/>
+                                    <Label Grid.Column="1" Text="{Binding Discipline.Name}" 
+                                           TextColor="Gray"
+                                           FontSize="12"/>
+                                    <Label Grid.Column="2" Text="timePlaceHolder"/>
+                                    <Button Grid.Column="3"
+                                            Text="🗑️"
+                                            BackgroundColor="IndianRed"
+                                            Clicked="ButtonArchiveItem_OnClicked"
+                                            HorizontalOptions="End"
+                                            Padding="10"/>
+                                    
+                                </Grid>
+                            </ViewCell.View>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+    
+            </ListView>
+            <Button Text="Создать новую задачу" 
+                    Clicked="ButtonCreateTask_Clicked"/>
+
         </VerticalStackLayout>
     </ScrollView>
 

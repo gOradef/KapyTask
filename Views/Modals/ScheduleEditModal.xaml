@@ -3,7 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:views="clr-namespace:KapyTask.Views"
              xmlns:xtables="clr-namespace:KapyTask.Database.Tables"
-             x:Class="KapyTask.Views.ScheduleEditModal">
+             xmlns:modals="clr-namespace:KapyTask.Views.Modals"
+             x:Class="KapyTask.Views.Modals.ScheduleEditModal">
     <NavigationPage.Title>Редактирование расписания</NavigationPage.Title>
     <ScrollView>
         <VerticalStackLayout
@@ -18,13 +19,13 @@
                 <HorizontalStackLayout x:Name="DayOfWeekStack" HorizontalOptions="Center"/>
                 <HorizontalStackLayout HorizontalOptions="End">
                     <Label Text="Четная неделя?" VerticalTextAlignment="Center"/>
-                    <Switch IsToggled="{Binding IsEvenSwitch}" Toggled="IsEvenWeekSwitch_OnToggled" x:DataType="views:ScheduleEditModal"/>
+                    <Switch IsToggled="{Binding IsEvenSwitch}" Toggled="IsEvenWeekSwitch_OnToggled" x:DataType="modals:ScheduleEditModal"/>
                 </HorizontalStackLayout>
                 
                 
                 <ScrollView Padding="10">
                     <!-- There is autofilling schedule for dayOfWeek from .cs -->
-                    <CollectionView ItemsSource="{Binding DisplayedSchedule}" x:DataType="views:ScheduleEditModal">
+                    <CollectionView ItemsSource="{Binding DisplayedSchedule}" x:DataType="modals:ScheduleEditModal">
                         <CollectionView.Header>
                             <Border Padding="10">
                                 <Grid ColumnDefinitions="*, *, auto">
@@ -60,7 +61,7 @@
                         <CheckBox IsChecked="{Binding SelectedIsEvenWeek}" Grid.Column="1"/>
                     </Grid>
                     
-                    <TimePicker Time="{Binding SelectedTimeOfClass}" x:DataType="views:ScheduleEditModal"/>                    
+                    <TimePicker Time="{Binding SelectedTimeOfClass}" x:DataType="modals:ScheduleEditModal"/>                    
                     <Button Text="Добавить новое занятие" x:Name="ButtonNewDiscipline" Clicked="ButtonNewScheduleClass_OnClicked"/>
                 </VerticalStackLayout>
             </Border>

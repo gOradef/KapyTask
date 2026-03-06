@@ -1,32 +1,70 @@
-﻿using System.Text;
+﻿using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using KapyTask.Database;
 using KapyTask.Database.Tables;
+using KapyTask.Views.Modals;
 
-namespace KapyTask.Views;
+namespace KapyTask.Views.Pages;
 
-public partial class MainPage : ContentPage
+public partial class MainPage : ContentPage, INotifyPropertyChanged
 {
     private KapyTaskDatabase db;
-    
+
+    private List<KTask> _displayedKTasks = new();
+    public List<KTask> DisplayedKTasks
+    {
+        get => _displayedKTasks;
+        set
+        {
+            _displayedKTasks = value;
+            OnPropertyChanged();
+        }
+    }
+
     public MainPage(KapyTaskDatabase db)
     {
         InitializeComponent();
         this.db = db;
+        BindingContext = this;
     }
 
-    private async void OnSetTasksClicked(object? sender, EventArgs e)
+    protected override async void OnAppearing()
     {
-        // var namesOftasks = (await db.GetTasks()).Select(a => a.Name).ToList();
-        // StringBuilder sb = new();
-        // foreach (var el in namesOftasks)
-        // {
-        //     sb.Append(el + ", ");
-        // }
-        //
-        // Body.Text = sb.ToString();
-        var el = await db.Schedule.GetSchedule();
-        var count = el.Count;
-        Body.Text = el.Count == 0 ? "None" : "Heeey! There it is!";
+        base.OnAppearing();
+        await UpdateTasks();
     }
 
+    private async Task UpdateTasks()
+    {
+        DisplayedKTasks = await db.Tasks.GetTasksWithDisciplineProperty();
+    }
+
+    private async void ButtonCreateTask_Clicked(object? sender, EventArgs e)
+    {
+        await Navigation.PushModalAsync(new TaskEditModal());
+    }
+
+    public new event PropertyChangedEventHandler PropertyChanged;
+    
+    protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
+    {
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+    }
+
+    private async void ListViewTasks_OnItemSelected(object? sender, SelectedItemChangedEventArgs e)
+    {
+        await Navigation.PushModalAsync(new TaskEditModal(e.SelectedItem as KTask));
+    }
+
+    private async void ButtonArchiveItem_OnClicked(object? sender, EventArgs e)
+    {
+        var button = sender as Button;
+        var task = button.BindingContext as KTask;
+        
+        if ( await DisplayAlert("Потверждение", $"Точно удалить '{task.Name}'?", "Да", "Нет"))
+        {
+            db.Tasks.DeleteTask(task);
+            UpdateTasks();
+        }
+    }
 }

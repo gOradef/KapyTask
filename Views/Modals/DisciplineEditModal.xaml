@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="KapyTask.Views.DisciplineEditModal">
+             xmlns:xviews="clr-namespace:KapyTask.Views.Modals"
+             x:Class="KapyTask.Views.Modals.DisciplineEditModal">
             
     <NavigationPage.Title>Редактирование дисциплин</NavigationPage.Title>
     
@@ -15,7 +16,7 @@
                 Style="{StaticResource Headline}" Margin="0, 20, 0, -20"/>
             <Label x:Name="DisciplinenCountLabel" HorizontalTextAlignment="Center"/>
             <Button Text="Добавить новую" x:Name="ButtonNewDiscipline" Clicked="ButtonNewDiscipline_OnClicked"/>
-            <Entry Placeholder="Введите название новой дисциплины" x:Name="EntryNameNewDiscipline" Text="{Binding NewDiscipline_Name}"/>
+            <Entry Placeholder="Введите название новой дисциплины" x:Name="EntryNameNewDiscipline" Text="{Binding NewDiscipline_Name}" x:DataType="xviews:DisciplineEditModal"/>
             <Label TextColor="Gray" HorizontalTextAlignment="Center" Text="Рекомендуется формат вида: `Матан_Л` / `Матан_П` / `Матан_Лаб` и тд"/>
             <Label 
                 x:Name="NewDisciplineAddedStatusLabel" 

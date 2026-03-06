@@ -4,7 +4,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace KapyTask.Views;
+namespace KapyTask.Views.Modals;
 
 public partial class DisciplineEditModal : ContentPage, INotifyPropertyChanged
 {

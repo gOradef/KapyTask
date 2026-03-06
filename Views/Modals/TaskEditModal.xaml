@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:xviews="clr-namespace:KapyTask.Views.Modals"
+             x:Class="KapyTask.Views.Modals.TaskEditModal"
+             Title="Задача">
+    
+    <ScrollView>
+        <VerticalStackLayout Spacing="20" Padding="20">
+            <Label Text="Задача" Style="{StaticResource Headline}"/>
+            <Border Padding="10">
+                <VerticalStackLayout>
+                    <Picker ItemsSource="{Binding Disciplines}" 
+                            SelectedItem="{Binding SelectedDiscipline}" 
+                            Title="Выберите дисциплину" 
+                            ItemDisplayBinding="{Binding Name}"
+                            x:DataType="xviews:TaskEditModal"/>                    
+                    
+                    <Entry Placeholder="Введите название задачи" Text="{Binding KTask.Name}" x:DataType="xviews:TaskEditModal"/>
+                    <Label Text="{Binding Title, StringFormat='Task: {0}'}" x:DataType="xviews:TaskEditModal"/>
+                </VerticalStackLayout>
+            </Border>
+            <HorizontalStackLayout>
+                <Button Text="Отмена" Clicked="ButtonClose_OnClicked"/>
+                <Button Text="Сохранить" Clicked="ButtonConfirm_OnClicked" VerticalOptions="End"/>
+            </HorizontalStackLayout>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
