@@ -12,17 +12,28 @@
                 <VerticalStackLayout>
                     <Picker ItemsSource="{Binding Disciplines}" 
                             SelectedItem="{Binding SelectedDiscipline}" 
-                            Title="Выберите дисциплину" 
+                            SelectedIndexChanged="PickerDiscipline_OnSelectedIndexChanged"
                             ItemDisplayBinding="{Binding Name}"
+                            Title="Выберите дисциплину" 
                             x:DataType="xviews:TaskEditModal"/>                    
-                    
-                    <Entry Placeholder="Введите название задачи" Text="{Binding KTask.Name}" x:DataType="xviews:TaskEditModal"/>
-                    <Label Text="{Binding Title, StringFormat='Task: {0}'}" x:DataType="xviews:TaskEditModal"/>
+                    <VerticalStackLayout  x:DataType="xviews:TaskEditModal">
+                        <Entry Placeholder="Введите название задачи" Text="{Binding KTask.Name}"/>
+                        <Editor Placeholder="Описание задачи (опционально)" AutoSize="TextChanges" Text="{Binding KTask.Description}"/>
+                        <Grid ColumnDefinitions="*, auto, auto">
+                            <Label Grid.Column="0" Text="Желательное время выполенения" VerticalTextAlignment="Center" HorizontalTextAlignment="End"/>
+                            <Button Grid.Column="1" Text="Сбросить? 🔄️" BackgroundColor="Transparent" TextColor="CornflowerBlue" FontAttributes="Italic" Clicked="ButtonResetUserPlannedTime_OnClicked"/>
+                            <DatePicker Grid.Column="2" Date="{Binding KTask.UserPlannedTimeTodo}" HorizontalOptions="End"/>
+                        </Grid>
+                        <Grid ColumnDefinitions="*, auto">
+                            <Label Grid.Column="0" Text="Нужно выполнить к ..." VerticalTextAlignment="Center"/>
+                            <Picker Grid.Column="1" ItemsSource="{Binding SuggestedDeadlines}" SelectedItem="{Binding SelectedDeadline}" HorizontalOptions="End"/>
+                        </Grid>
+                    </VerticalStackLayout>
                 </VerticalStackLayout>
             </Border>
-            <HorizontalStackLayout>
-                <Button Text="Отмена" Clicked="ButtonClose_OnClicked"/>
-                <Button Text="Сохранить" Clicked="ButtonConfirm_OnClicked" VerticalOptions="End"/>
+            <HorizontalStackLayout HorizontalOptions="End" Spacing="10">
+                <Button BackgroundColor="IndianRed" Text="Отмена" Clicked="ButtonClose_OnClicked"/>
+                <Button BackgroundColor="DarkSeaGreen" Text="Сохранить" Clicked="ButtonConfirm_OnClicked" VerticalOptions="End"/>
             </HorizontalStackLayout>
         </VerticalStackLayout>
     </ScrollView>

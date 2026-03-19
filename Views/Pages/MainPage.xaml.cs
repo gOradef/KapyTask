@@ -36,19 +36,14 @@ public partial class MainPage : ContentPage, INotifyPropertyChanged
 
     private async Task UpdateTasks()
     {
-        DisplayedKTasks = await db.Tasks.GetTasksWithDisciplineProperty();
+        DisplayedKTasks = (await db.Tasks.GetTasksWithDisciplineProperty()).OrderBy(a => a.Deadline is null)
+            .ThenBy(a => a.Deadline)
+            .ToList();
     }
 
     private async void ButtonCreateTask_Clicked(object? sender, EventArgs e)
     {
         await Navigation.PushModalAsync(new TaskEditModal());
-    }
-
-    public new event PropertyChangedEventHandler PropertyChanged;
-    
-    protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
-    {
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 
     private async void ListViewTasks_OnItemSelected(object? sender, SelectedItemChangedEventArgs e)
@@ -58,7 +53,7 @@ public partial class MainPage : ContentPage, INotifyPropertyChanged
 
     private async void ButtonArchiveItem_OnClicked(object? sender, EventArgs e)
     {
-        var button = sender as Button;
+        var button = sender as CheckBox;
         var task = button.BindingContext as KTask;
         
         if ( await DisplayAlert("Потверждение", $"Точно удалить '{task.Name}'?", "Да", "Нет"))

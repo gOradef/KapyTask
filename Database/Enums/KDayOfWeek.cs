@@ -29,3 +29,20 @@ public enum KDayOfWeek
     [Description("Воскресенье")]
     Sunday = 6,
 }
+public static class KDayOfWeekExtensions
+{
+    public static DayOfWeek ToSystemDayOfWeek(this KDayOfWeek kDay)
+    {
+        return kDay switch
+        {
+            KDayOfWeek.Monday => DayOfWeek.Monday,
+            KDayOfWeek.Tuesday => DayOfWeek.Tuesday,
+            KDayOfWeek.Wednesday => DayOfWeek.Wednesday,
+            KDayOfWeek.Thursday => DayOfWeek.Thursday,
+            KDayOfWeek.Friday => DayOfWeek.Friday,
+            KDayOfWeek.Saturday => DayOfWeek.Saturday,
+            KDayOfWeek.Sunday => DayOfWeek.Sunday,
+            _ => DayOfWeek.Monday
+        };
+    }
+}
