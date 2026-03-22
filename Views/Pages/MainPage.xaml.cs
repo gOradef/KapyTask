@@ -46,15 +46,17 @@ public partial class MainPage : ContentPage, INotifyPropertyChanged
         await Navigation.PushModalAsync(new TaskEditModal());
     }
 
-    private async void ListViewTasks_OnItemSelected(object? sender, SelectedItemChangedEventArgs e)
+    private async void ListViewTasks_OnItemSelected(object? sender, SelectionChangedEventArgs e)
     {
-        await Navigation.PushModalAsync(new TaskEditModal(e.SelectedItem as KTask));
+        var selectedTask = e.CurrentSelection.FirstOrDefault() as KTask;
+        if (selectedTask is not null)
+            await Navigation.PushModalAsync(new TaskEditModal(selectedTask));
     }
 
     private async void ButtonArchiveItem_OnClicked(object? sender, EventArgs e)
     {
-        var button = sender as CheckBox;
-        var task = button.BindingContext as KTask;
+        var checkBox = sender as CheckBox;
+        var task = checkBox.BindingContext as KTask;
         
         if ( await DisplayAlert("Потверждение", $"Точно удалить '{task.Name}'?", "Да", "Нет"))
         {

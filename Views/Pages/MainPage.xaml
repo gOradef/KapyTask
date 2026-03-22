@@ -22,43 +22,58 @@
                 Style="{StaticResource SubHeadline}" Padding="0, 0, 0, 10"/>
 
             
-            <ListView ItemsSource="{Binding DisplayedKTasks}"
-                      x:DataType="xviews:MainPage"
-                      ItemSelected="ListViewTasks_OnItemSelected">
+            <CollectionView ItemsSource="{Binding DisplayedKTasks}"
+                x:DataType="xviews:MainPage"
+                SelectionChanged="ListViewTasks_OnItemSelected"
+                SelectionMode="Single">
     
-                <ListView.ItemTemplate>
+                <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="xtables:KTask">
-                        <ViewCell>
-                            <ViewCell.View>
-                                <Grid ColumnDefinitions="*, *, *, auto" Padding="20,5">
-                                    <VerticalStackLayout Grid.Column="0">
-                                        <Label Text="{Binding Name}"/>
-                                        <Label Text="..." IsVisible="{Binding IsHasDescription}"/>
-                                        
-                                    </VerticalStackLayout>
-                                    <VerticalStackLayout Grid.Column="1">
-                                        <Label Text="{Binding Discipline.Name}" 
-                                               TextColor="Gray"
-                                               FontSize="12"/>
-                                        <Label Text="{Binding Deadline}" 
-                                               TextColor="Gray"
-                                               FontSize="12"/>
-                                    </VerticalStackLayout>
-                                    <Label Grid.Column="2" 
-                                           Text="{Binding DaysLeft.DaysLeftText}" 
-                                           TextColor="{Binding DaysLeft.Color}" 
-                                           VerticalTextAlignment="Center"/>
-                                    <CheckBox Grid.Column="3"
-                                            IsChecked="False"
-                                            CheckedChanged="ButtonArchiveItem_OnClicked"
-                                            HorizontalOptions="End"/>
-                                </Grid>
-                            </ViewCell.View>
-                        </ViewCell>
+                        <Grid Padding="20,5"
+                              ColumnDefinitions="*, *, *, auto">
+                            
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal">
+                                        <VisualState.Setters>
+                                            <Setter Property="BackgroundColor" Value="Transparent"/>
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState x:Name="Selected">
+                                        <VisualState.Setters>
+                                            <Setter Property="BackgroundColor" Value="{StaticResource Gray200}"/>
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            
+                            <VerticalStackLayout Grid.Column="0">
+                                <Label Text="{Binding Name}"/>
+                                <Label Text="..." IsVisible="{Binding IsHasDescription}"/>
+                            </VerticalStackLayout>
+                            
+                            <VerticalStackLayout Grid.Column="1">
+                                <Label Text="{Binding Discipline.Name}" 
+                                       TextColor="Gray"
+                                       FontSize="12"/>
+                                <Label Text="{Binding Deadline}" 
+                                       TextColor="Gray"
+                                       FontSize="12"/>
+                            </VerticalStackLayout>
+                            
+                            <Label Grid.Column="2" 
+                                   Text="{Binding DaysLeft.DaysLeftText}" 
+                                   TextColor="{Binding DaysLeft.Color}" 
+                                   VerticalTextAlignment="Center"/>
+                            
+                            <CheckBox Grid.Column="3"
+                                      IsChecked="False"
+                                      CheckedChanged="ButtonArchiveItem_OnClicked"
+                                      HorizontalOptions="End"/>
+                        </Grid>
                     </DataTemplate>
-                </ListView.ItemTemplate>
-    
-            </ListView>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
             <Button Text="Создать новую задачу" 
                     Clicked="ButtonCreateTask_Clicked"/>
 
