@@ -232,7 +232,7 @@ public partial class TaskEditModal : ContentPage, INotifyPropertyChanged
 
     private async Task LoadDisciplines()
     {
-        var disciplines = await db.Disciplines.GetDisciplines();
+        var disciplines = (await db.Disciplines.GetDisciplines()).OrderBy(a => a.Name).ToList();
         
         MainThread.BeginInvokeOnMainThread(() =>
         {
