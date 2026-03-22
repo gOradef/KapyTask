@@ -9,6 +9,7 @@ namespace KapyTask.Views.Pages;
 public partial class MainPage : ContentPage, INotifyPropertyChanged
 {
     private KapyTaskDatabase db;
+    private bool _isUpdating = false; // var to cancel tasks that already running
 
     private List<KTask> _displayedKTasks = new();
     public List<KTask> DisplayedKTasks
@@ -28,29 +29,47 @@ public partial class MainPage : ContentPage, INotifyPropertyChanged
         BindingContext = this;
     }
 
-    protected override async void OnAppearing()
+    protected override void OnAppearing()
     {
         base.OnAppearing();
-        await UpdateTasks();
+        _ = UpdateTasksAsync();    
     }
 
-    private async Task UpdateTasks()
+    private async Task UpdateTasksAsync()
     {
-        DisplayedKTasks = (await db.Tasks.GetTasksWithDisciplineProperty()).OrderBy(a => a.Deadline is null)
-            .ThenBy(a => a.Deadline)
-            .ToList();
+        if (_isUpdating)
+            return;
+
+        try
+        {
+            _isUpdating = true;
+            var tasks = await db.Tasks.GetTasksWithDisciplineProperty();
+
+            var sortedTasks = tasks.OrderBy(a => a.Deadline == null).ThenBy(a => a.Deadline).ToList();
+
+            DisplayedKTasks = sortedTasks;
+        }
+        catch (Exception e)
+        {
+            System.Diagnostics.Debug.WriteLine($"Error updating tasks: {e.Message}");
+            await DisplayAlert("Ошибка", "Не удалось обновить задачи", "Ok");
+        }
+        finally
+        {
+            _isUpdating = false;
+        }
     }
 
-    private async void ButtonCreateTask_Clicked(object? sender, EventArgs e)
+    private void ButtonCreateTask_Clicked(object? sender, EventArgs e)
     {
-        await Navigation.PushModalAsync(new TaskEditModal());
+        Navigation.PushModalAsync(new TaskEditModal());
     }
 
-    private async void ListViewTasks_OnItemSelected(object? sender, SelectionChangedEventArgs e)
+    private void ListViewTasks_OnItemSelected(object? sender, SelectionChangedEventArgs e)
     {
         var selectedTask = e.CurrentSelection.FirstOrDefault() as KTask;
         if (selectedTask is not null)
-            await Navigation.PushModalAsync(new TaskEditModal(selectedTask));
+            Navigation.PushModalAsync(new TaskEditModal(selectedTask));
     }
 
     private async void ButtonArchiveItem_OnClicked(object? sender, EventArgs e)
@@ -61,7 +80,11 @@ public partial class MainPage : ContentPage, INotifyPropertyChanged
         if ( await DisplayAlert("Потверждение", $"Точно удалить '{task.Name}'?", "Да", "Нет"))
         {
             db.Tasks.DeleteTask(task);
-            UpdateTasks();
+            UpdateTasksAsync();
+        }
+        else
+        {
+            checkBox.IsChecked = false;
         }
     }
 }
