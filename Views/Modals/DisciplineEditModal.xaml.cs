@@ -39,8 +39,10 @@ public partial class DisciplineEditModal : ContentPage, INotifyPropertyChanged
     private async Task LoadDisciplines()
     {
         var disciplines = await db.Disciplines.GetDisciplines();
+        var orderedDisciplines = disciplines.OrderBy(a => a.Name);
+        
         Disciplines.Clear();
-        foreach (var discipline in disciplines)
+        foreach (var discipline in orderedDisciplines)
         {
             Disciplines.Add(discipline);
         }

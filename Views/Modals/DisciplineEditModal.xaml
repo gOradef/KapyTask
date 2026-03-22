@@ -25,31 +25,27 @@
                 Text="{Binding NewDiscipline_Name, StringFormat='Дисциплина {0} успешно добавлена.'}" 
                 IsVisible="False"/>
             
-            <ListView ItemsSource="{Binding Disciplines}">
-                <ListView.ItemTemplate>
+            <CollectionView ItemsSource="{Binding Disciplines}">
+                <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <ViewCell>
-                            <ViewCell.View>
-                                <Grid ColumnDefinitions="*, *, Auto" Padding="10, 4">
-                                    <Label Grid.Column="0"
-                                           Text="{Binding Name, StringFormat='{0}'}" 
-                                           VerticalOptions="Center"/>
-                                    <Label Grid.Column="1"
-                                           Text="{Binding Id, StringFormat='Id: {0}'}" 
-                                           TextColor="Gray"
-                                           VerticalOptions="Center"
-                                           />
-                                    <Button Grid.Column="2" 
-                                            Text="🗑️"
-                                            BackgroundColor="IndianRed"
-                                            Clicked="ButtonDeleteItem_OnClicked"
-                                            HorizontalOptions="End"/>
-                                </Grid>                            
-                            </ViewCell.View>
-                        </ViewCell>
+                        <Grid ColumnDefinitions="*, *, Auto" Padding="10, 4">
+                            <Label Grid.Column="0"
+                                   Text="{Binding Name, StringFormat='{0}'}" 
+                                   VerticalOptions="Center"/>
+                            <Label Grid.Column="1"
+                                   Text="{Binding Id, StringFormat='Id: {0}'}" 
+                                   TextColor="Gray"
+                                   VerticalOptions="Center"
+                                   />
+                            <Button Grid.Column="2" 
+                                    Text="🗑️"
+                                    BackgroundColor="IndianRed"
+                                    Clicked="ButtonDeleteItem_OnClicked"
+                                    HorizontalOptions="End"/>
+                        </Grid>
                     </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
         </VerticalStackLayout>
     </ScrollView>
 
