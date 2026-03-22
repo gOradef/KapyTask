@@ -1,7 +1,7 @@
 using KapyTask.Database;
 using KapyTask.Database.Tables;
 using KapyTask.Views.Modals;
-
+using KapyTask.Views.Pages;
 namespace KapyTask.Views;
 
 public partial class SettingsPage : ContentPage

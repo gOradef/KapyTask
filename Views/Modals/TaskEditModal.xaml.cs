@@ -265,9 +265,9 @@ public partial class TaskEditModal : ContentPage, INotifyPropertyChanged
         }
     }
 
-    private async void ButtonClose_OnClicked(object? sender, EventArgs e)
+    private void ButtonClose_OnClicked(object? sender, EventArgs e)
     {
-        await Navigation.PopModalAsync();
+        Navigation.PopModalAsync();
     }
 
     private void PickerDiscipline_OnSelectedIndexChanged(object? sender, EventArgs e)
