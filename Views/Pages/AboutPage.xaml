@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:xviews="clr-namespace:KapyTask.Views.Pages"
+             x:Class="KapyTask.Views.Pages.AboutPage"
+             Title="О разработчике">
+    
+    <VerticalStackLayout Padding="15" Spacing="10" x:DataType="xviews:AboutPage">
+        <Label Text="Hola, от Alexandr" Style="{StaticResource SubHeadline}"/>
+        <Label Text="> 'Я начинающий C# разработчик и данный проект был выполнен в учебных целях (читать я устал от Todoist).
+        Я хотел сделать такое приложение, которые позволяло бы мне быстро и удобно создавать новые задачи, а также автоматически прикреплять их к занятиям в КАИ, 
+        чтобы не выбирать каждый вручную дедлайн.'"/>
+        
+        <Label Text="Стек приложения" Style="{StaticResource SubHeadline}"/>
+        <Label Text="C# / .NET 9.0, MAUI, LiteSql, Xamarin"/>
+        
+        <Label Text="Контакты" Style="{StaticResource SubHeadline}"/>
+        <Label>
+            <Label.FormattedText>
+                <FormattedString>
+                    <Span Text="Телеграм: " />
+                    <Span Text="@efimovfff"
+                          TextColor="DodgerBlue"
+                          TextDecorations="Underline">
+                        <Span.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding TapCommand}"
+                                                  CommandParameter="https://t.me/efimovfff" />
+                        </Span.GestureRecognizers>
+                    </Span>
+                </FormattedString>
+            </Label.FormattedText>
+        </Label>
+        <Label>
+            <Label.FormattedText>
+                <FormattedString>
+                    <Span Text="Мои проекты можно посмотреть на " />
+                    <Span Text="GitHub"
+                          TextColor="DodgerBlue"
+                          TextDecorations="Underline">
+                        <Span.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding TapCommand}"
+                                                  CommandParameter="https://github.com/gOradef" />
+                        </Span.GestureRecognizers>
+                    </Span>
+                </FormattedString>
+            </Label.FormattedText>
+        </Label>
+        <Label>
+            <Label.FormattedText>
+                <FormattedString>
+                    <Span Text="А также мое резюме: " />
+                    <Span Text="hh.ru"
+                          TextColor="DodgerBlue"
+                          TextDecorations="Underline">
+                        <Span.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding TapCommand}"
+                                                  CommandParameter="https://kazan.hh.ru/resume/93d6cedfff0fee0f390039ed1f6a73786f7557" />
+                        </Span.GestureRecognizers>
+                    </Span>
+                </FormattedString>
+            </Label.FormattedText>
+        </Label>
+    </VerticalStackLayout>
+    
+</ContentPage>

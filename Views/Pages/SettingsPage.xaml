@@ -8,12 +8,20 @@
     </NavigationPage.Title>
     <ScrollView>
         <VerticalStackLayout
-            Padding="30"
-            Spacing="25">
-
-            
-            <Button Text="Редактировать дисциплины" Clicked="ButtonEditDisciplines_OnClicked"/>
-            <Button Text="Редактировать расписание" Clicked="ButtonEditSchedule_OnClicked"/>
+            Padding="15"
+            Spacing="15">
+            <Label Text="Конфигурация" Style="{StaticResource SubHeadline}"/>
+            <Border>
+                <VerticalStackLayout
+                    Padding="20"
+                    Spacing="25">
+                    <Button Text="Редактировать дисциплины" Clicked="ButtonEditDisciplines_OnClicked"/>
+                    <Button Text="Редактировать расписание" Clicked="ButtonEditSchedule_OnClicked"/>
+                </VerticalStackLayout>
+            </Border>
+            <HorizontalStackLayout HorizontalOptions="End">
+                <Button Text="About the /dev" Clicked="ButtonOpenDevPage_OnClicked"/>
+            </HorizontalStackLayout>
         </VerticalStackLayout>
     </ScrollView>
 

@@ -21,4 +21,9 @@ public partial class SettingsPage : ContentPage
     {
         await Navigation.PushAsync(new ScheduleEditModal());
     }
+
+    private async void ButtonOpenDevPage_OnClicked(object? sender, EventArgs e)
+    {
+        await Navigation.PushAsync(new AboutPage());
+    }
 }
