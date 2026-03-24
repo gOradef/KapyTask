@@ -6,7 +6,7 @@
              x:Class="KapyTask.Views.Pages.MainPage"
              Title="Текущие задачи">
 
-    <ScrollView VerticalScrollBarVisibility="Default">
+    <ScrollView VerticalScrollBarVisibility="Never">
         <VerticalStackLayout
             Padding="10, 0, 10,30"
             Spacing="20">
