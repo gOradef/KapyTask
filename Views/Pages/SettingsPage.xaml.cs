@@ -14,12 +14,12 @@ public partial class SettingsPage : ContentPage
     
     private async void ButtonEditDisciplines_OnClicked(object? sender, EventArgs e)
     {
-        await Navigation.PushAsync(new DisciplineEditModal());
+        await Navigation.PushAsync(new DisciplineListEditPage());
     }
 
     private async void ButtonEditSchedule_OnClicked(object? sender, EventArgs e)
     {
-        await Navigation.PushAsync(new ScheduleEditModal());
+        await Navigation.PushAsync(new ScheduleListEditPage());
     }
 
     private async void ButtonOpenDevPage_OnClicked(object? sender, EventArgs e)

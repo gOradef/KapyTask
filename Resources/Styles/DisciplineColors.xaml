@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<?xaml-comp compile="true" ?>
+<ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+    <Color x:Key="Розово_сиреневый">#b05076</Color>
+    <Color x:Key="Лососевый">#c87871</Color>
+    <Color x:Key="Кораллово_красный">#c76d65</Color>
+    <Color x:Key="Розово_пурпурный">#bb638b</Color>
+    <Color x:Key="Оливково_желтый">#a39745</Color>
+    <Color x:Key="Хаки">#87904f</Color>
+    <Color x:Key="Серо_зеленый">#779161</Color>
+    <Color x:Key="Травяной_зеленый">#4b8225</Color>
+    <Color x:Key="Мятно_зеленый">#5a9a8a</Color>
+    <Color x:Key="Темная_бирюза">#2f8596</Color>
+    <Color x:Key="Сине_зеленый">#2e8598</Color>
+    <Color x:Key="Стальной_синий">#4a92a8</Color>
+    <Color x:Key="Серо_синий">#788999</Color>
+    <Color x:Key="Средний_синий">#587ebf</Color>
+    <Color x:Key="Темно_фиолетовый">#5f3b9b</Color>
+    <Color x:Key="Пурпурный">#aa5bc4</Color>
+    <Color x:Key="Серо_лиловый">#937287</Color>
+    <Color x:Key="Темно_серый">#818181</Color>
+    <Color x:Key="Светло_серый">#a3a3a3</Color>
+    <Color x:Key="Грифельный">#857d70</Color>
+</ResourceDictionary>

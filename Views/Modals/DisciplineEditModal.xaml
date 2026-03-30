@@ -1,52 +1,41 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:xviews="clr-namespace:KapyTask.Views.Modals"
-             xmlns:xlocal="clr-namespace:KapyTask.Database.Tables"
-             x:Class="KapyTask.Views.Modals.DisciplineEditModal">
-            
-    <NavigationPage.Title>Редактирование дисциплин</NavigationPage.Title>
+             xmlns:cs="clr-namespace:KapyTask.Views.Modals"
+             x:Class="KapyTask.Views.Modals.DisciplineEditModal"
+             Title="Дисциплина"
+             x:DataType="cs:DisciplineEditModal">
     
     <ScrollView>
-        <VerticalStackLayout
-            Padding="30"
-            Spacing="20">
-
-            <Label
-                Text="Дисциплины"
-                Style="{StaticResource Headline}" Margin="0, 20, 0, -20"/>
-            <Label x:Name="DisciplinenCountLabel" HorizontalTextAlignment="Center"/>
-            <Button Text="Добавить новую" x:Name="ButtonNewDiscipline" Clicked="ButtonNewDiscipline_OnClicked"/>
-            <Entry Placeholder="Введите название новой дисциплины" x:Name="EntryNameNewDiscipline" Text="{Binding NewDiscipline_Name}" x:DataType="xviews:DisciplineEditModal"/>
-            <Label TextColor="Gray" HorizontalTextAlignment="Center" Text="Рекомендуется формат вида: `Матан_Л` / `Матан_П` / `Матан_Лаб` и тд"/>
-            <Label 
-                x:Name="NewDisciplineAddedStatusLabel" 
-                TextColor="SeaGreen" 
-                Text="{Binding NewDiscipline_Name, StringFormat='Дисциплина {0} успешно добавлена.'}" 
-                IsVisible="False"/>
-            
-            <CollectionView ItemsSource="{Binding Disciplines}">
-                <CollectionView.ItemTemplate>
-                    <DataTemplate>
-                        <Grid ColumnDefinitions="*, *, Auto" Padding="10, 4">
-                            <Label Grid.Column="0"
-                                   Text="{Binding Name, StringFormat='{0}'}" 
-                                   VerticalOptions="Center"/>
-                            <Label Grid.Column="1"
-                                   Text="{Binding Id, StringFormat='Id: {0}'}" 
-                                   TextColor="Gray"
-                                   VerticalOptions="Center"
-                                   />
-                            <Button Grid.Column="2" 
-                                    Text="🗑️"
-                                    BackgroundColor="IndianRed"
-                                    Clicked="ButtonDeleteItem_OnClicked"
-                                    HorizontalOptions="End"/>
-                        </Grid>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
+        <VerticalStackLayout Spacing="20" Padding="20">
+            <Label Text="Дисциплина" Style="{StaticResource Headline}"/>
+            <Border Padding="10">
+                <VerticalStackLayout>
+                    <Entry Text="{Binding Discipline.Name}" 
+                           Placeholder="Название дисциплины"/>
+                    <HorizontalStackLayout Spacing="10" Margin="0,10,0,0">
+                        <Label Text="Цвет дисциплины" 
+                               VerticalOptions="Center"/>
+                        <Picker Title="Выберите цвет"
+                                ItemsSource="{Binding DisciplineColors}"
+                                ItemDisplayBinding="{Binding Name}"
+                                SelectedItem="{Binding SelectedColor}"
+                                WidthRequest="200"/>
+                    </HorizontalStackLayout>
+                    <BoxView Color="{Binding SelectedColor.Color}" 
+                             HeightRequest="40" 
+                             CornerRadius="8"
+                             Margin="0,10,0,0"/>
+                </VerticalStackLayout>
+            </Border>
+            <HorizontalStackLayout HorizontalOptions="End" Spacing="10">
+                <Button BackgroundColor="IndianRed" 
+                        Text="Отмена" 
+                        Clicked="ButtonClose_OnClicked"/>
+                <Button BackgroundColor="DarkSeaGreen" 
+                        Text="Сохранить" 
+                        Clicked="ButtonConfirm_OnClicked"/>
+            </HorizontalStackLayout>
         </VerticalStackLayout>
     </ScrollView>
-
 </ContentPage>
