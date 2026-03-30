@@ -78,6 +78,14 @@
         <DependentUpon>SettingsPage.xaml</DependentUpon>
         <SubType>Code</SubType>
       </Compile>
+      <Compile Update="Views\Pages\DisciplineListEditPage.xaml.cs">
+        <DependentUpon>DisciplineListEditPage.xaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="Views\Pages\ScheduleListEditPage.xaml.cs">
+        <DependentUpon>ScheduleListEditPage.xaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
     </ItemGroup>
 
     <ItemGroup>
@@ -88,6 +96,12 @@
         <SubType>Designer</SubType>
       </MauiXaml>
       <MauiXaml Update="Views\Pages\SettingsPage.xaml">
+        <SubType>Designer</SubType>
+      </MauiXaml>
+      <MauiXaml Update="Views\Pages\DisciplineListEditPage.xaml">
+        <SubType>Designer</SubType>
+      </MauiXaml>
+      <MauiXaml Update="Views\Pages\ScheduleListEditPage.xaml">
         <SubType>Designer</SubType>
       </MauiXaml>
     </ItemGroup>

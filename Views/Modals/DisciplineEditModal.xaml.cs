@@ -1,102 +1,134 @@
+using System.ComponentModel;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
 using KapyTask.Database;
 using KapyTask.Database.Tables;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
 
 namespace KapyTask.Views.Modals;
 
+/// <summary>
+/// Modal for editing discipline 
+/// </summary>
 public partial class DisciplineEditModal : ContentPage, INotifyPropertyChanged
 {
-    private KapyTaskDatabase db;
-    public ObservableCollection<KDiscipline> Disciplines { get; set; } = new();
+    private readonly KapyTaskDatabase _db;
+    private KDiscipline _discipline;
+    private DisciplineColor _selectedColor;
     
-    private string _newDisciplineName;
-    public string NewDiscipline_Name
+    public KDiscipline Discipline
     {
-        get => _newDisciplineName;
+        get => _discipline;
         set
         {
-            _newDisciplineName = value;
+            _discipline = value;
             OnPropertyChanged();
         }
     }
+
+    public List<DisciplineColor> DisciplineColors { get; private set; }
     
-    public DisciplineEditModal()
+    public DisciplineColor SelectedColor
     {
-        InitializeComponent();
-        db = new();
-        BindingContext = this;
-        
-    }
-
-    protected override async void OnAppearing()
-    {
-        base.OnAppearing();
-        await LoadDisciplines();
-    }
-
-    private async Task LoadDisciplines()
-    {
-        var disciplines = await db.Disciplines.GetDisciplines();
-        var orderedDisciplines = disciplines.OrderBy(a => a.Name);
-        
-        Disciplines.Clear();
-        foreach (var discipline in orderedDisciplines)
+        get => _selectedColor;
+        set
         {
-            Disciplines.Add(discipline);
-        }
-        DisciplinenCountLabel.Text = $"Всего: {Disciplines.Count.ToString()}";
-    }
-
-    private async void ButtonNewDiscipline_OnClicked(object? sender, EventArgs e)
-    {
-        if (string.IsNullOrWhiteSpace(NewDiscipline_Name))
-            return;
-        
-        // Check if discipline already exists
-        if (Disciplines.Any(d => d.Name.Equals(NewDiscipline_Name, StringComparison.OrdinalIgnoreCase)))
-            return;
-        
-        await db.InsertDiscipline(new KDiscipline { Name = NewDiscipline_Name });
-        
-        // Clear entry and hide it
-        EntryNameNewDiscipline.IsVisible = false;
-        NewDisciplineAddedStatusLabel.IsVisible = true;
-        
-        await LoadDisciplines();
-        
-        // Reset entry for next use
-        NewDiscipline_Name = string.Empty;
-        EntryNameNewDiscipline.IsVisible = true;
-        NewDisciplineAddedStatusLabel.IsVisible = false;
-    }
-    async void OnBackButtonClicked(object sender, EventArgs e)
-    {
-        await Navigation.PopAsync();
-    }
-    
-    public new event PropertyChangedEventHandler PropertyChanged;
-    protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
-    {
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-    }
-
-    private async void ButtonDeleteItem_OnClicked(object? sender, EventArgs e)
-    {
-        var button = sender as Button;
-        var discipline = button?.BindingContext as KDiscipline;
-        
-        if (discipline != null)
-        {
-            bool confirm = await DisplayAlert("Подтверждение", 
-                $"Удалить дисциплину '{discipline.Name}'?", "Да", "Нет");
-                
-            if (confirm)
+            if (_selectedColor != value)
             {
-                await db.Disciplines.DeleteDiscipline(discipline);
-                await LoadDisciplines();
+                _selectedColor = value;
+                OnPropertyChanged();
+                
+                // Обновляем цвет дисциплины при выборе
+                if (Discipline != null && _selectedColor != null)
+                {
+                    Discipline.Color = _selectedColor.Color;
+                }
             }
         }
+    }
+
+    public DisciplineEditModal(KDiscipline givenDiscipline)
+    {
+        InitializeComponent();
+        _db = new KapyTaskDatabase();
+        Discipline = givenDiscipline;
+        
+        SetDisciplineColors();
+        
+        // Устанавливаем выбранный цвет на основе текущего цвета дисциплины
+        if (Discipline.ColorHexValue != null)
+        {
+            SelectedColor = DisciplineColors.FirstOrDefault(c => c.Color.ToHex() == Discipline.ColorHexValue);
+        }
+        
+        BindingContext = this;
+    }
+
+    private void SetDisciplineColors()
+    {
+        var colorItems = new List<DisciplineColor>();
+        
+        // Ищем словарь DisciplineColors
+        var disciplineDict = Application.Current.Resources.MergedDictionaries
+            .FirstOrDefault(d => d.Source?.OriginalString?.Contains("DisciplineColors") == true);
+        
+        if (disciplineDict != null)
+        {
+            foreach (var key in disciplineDict.Keys)
+            {
+                if (disciplineDict[key] is Color color && key is string keyName)
+                {
+                    colorItems.Add(new DisciplineColor
+                    {
+                        Name = keyName,
+                        Color = color
+                    });
+                }
+            }
+        }
+        else
+        {
+            // Fallback, если словарь не найден
+            Debug.WriteLine("DisciplineColors dictionary not found!");
+            colorItems.Add(new DisciplineColor { Name = "Серый", Color = Colors.Gray });
+        }
+
+        DisciplineColors = colorItems;
+    }
+
+    public class DisciplineColor
+    {
+        public string Name { get; set; } = string.Empty;
+        public Color Color { get; set; } = Colors.White;
+    }
+
+    private async void ButtonClose_OnClicked(object? sender, EventArgs e)
+    {
+        await Navigation.PopModalAsync();
+    }
+
+    private async void ButtonConfirm_OnClicked(object? sender, EventArgs e)
+    {
+        if (string.IsNullOrWhiteSpace(Discipline.Name))
+        {
+            await DisplayAlert("Ошибка", "Введите название дисциплины", "OK");
+            return;
+        }
+        
+        var confirm = await DisplayAlert("Подтверждение",
+            "Обновить дисциплину?",
+            "Да", "Нет");
+            
+        if (confirm)
+        {
+            await _db.Disciplines.UpdateDiscipline(Discipline);
+            await Navigation.PopModalAsync();
+        }
+    }
+
+    public event PropertyChangedEventHandler? PropertyChanged;
+
+    protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
+    {
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }

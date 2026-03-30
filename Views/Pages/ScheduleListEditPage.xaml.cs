@@ -6,7 +6,7 @@ using KapyTask.Database.Tables;
 
 namespace KapyTask.Views.Modals;
 
-public partial class ScheduleEditModal : ContentPage, INotifyPropertyChanged
+public partial class ScheduleListEditPage : ContentPage, INotifyPropertyChanged
 {
     private KapyTaskDatabase db;
 
@@ -34,7 +34,7 @@ public partial class ScheduleEditModal : ContentPage, INotifyPropertyChanged
     public KDayOfWeek SelectedDayOfWeek_Filter { get; set; }
     
     public bool IsEvenSwitch { get; set; }
-    public ScheduleEditModal()
+    public ScheduleListEditPage()
     {
         InitializeComponent();
         db = new();
