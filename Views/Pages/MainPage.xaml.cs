@@ -10,6 +10,27 @@ public partial class MainPage : ContentPage, INotifyPropertyChanged
 {
     private KapyTaskDatabase db;
     private bool _isUpdating = false; // var to cancel tasks that already running
+    public bool IsUpdating
+    {
+        get => _isUpdating;
+        set
+        {
+            _isUpdating = value;
+            OnPropertyChanged();
+        }
+    }
+
+    private bool _isTasksLoaded = false;
+
+    public bool IsTasksLoaded
+    {
+        get => !_isTasksLoaded; // Important '!'. Doesnt working wihtout it. Xaml cant handle '!' in binding context
+        set
+        {
+            _isTasksLoaded = value;
+            OnPropertyChanged();
+        }
+    }
 
     private List<KTask> _displayedKTasks = new();
     public List<KTask> DisplayedKTasks
@@ -27,12 +48,13 @@ public partial class MainPage : ContentPage, INotifyPropertyChanged
         InitializeComponent();
         this.db = db;
         BindingContext = this;
+        IsTasksLoaded = false;
     }
 
     protected override void OnAppearing()
     {
         base.OnAppearing();
-        _ = UpdateTasksAsync();    
+        _ = UpdateTasksAsync();
     }
 
     private async Task UpdateTasksAsync()
@@ -42,7 +64,7 @@ public partial class MainPage : ContentPage, INotifyPropertyChanged
 
         try
         {
-            _isUpdating = true;
+            IsUpdating = true;
             var tasks = await db.Tasks.GetTasksWithDisciplineProperty();
 
             var sortedTasks = tasks.OrderBy(a => a.Deadline == null).ThenBy(a => a.Deadline).ToList();
@@ -56,7 +78,8 @@ public partial class MainPage : ContentPage, INotifyPropertyChanged
         }
         finally
         {
-            _isUpdating = false;
+            IsTasksLoaded = true;
+            IsUpdating = false;
         }
     }
 
