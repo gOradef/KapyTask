@@ -20,7 +20,8 @@
                 </VerticalStackLayout>
             </Border>
             <HorizontalStackLayout HorizontalOptions="End">
-                <Button Text="About the /dev" Clicked="ButtonOpenDevPage_OnClicked"/>
+                <Button Text="About the /dev 🛠️"
+                        Clicked="ButtonOpenDevPage_OnClicked"/>
             </HorizontalStackLayout>
         </VerticalStackLayout>
     </ScrollView>
