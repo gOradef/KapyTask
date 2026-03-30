@@ -54,8 +54,10 @@
                             
                             <VerticalStackLayout Grid.Column="1">
                                 <Label Text="{Binding Discipline.Name}" 
-                                       TextColor="Gray"
-                                       FontSize="12"/>
+                                       TextColor="{Binding Discipline.Color}"
+                                       FontAttributes="Bold, Italic"
+                                       FontSize="12"
+                                       Scale="1.05"/>
                                 <Label Text="{Binding Deadline}" 
                                        TextColor="Gray"
                                        FontSize="12"/>

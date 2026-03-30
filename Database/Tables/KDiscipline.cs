@@ -15,7 +15,7 @@ public class KDiscipline
     [Ignore]
     public Color Color
     {
-        get => ColorHexValue is null ? Colors.White : Color.FromArgb(ColorHexValue);
+        get => ColorHexValue is null ? Colors.Gray : Color.FromArgb(ColorHexValue);
         set => ColorHexValue = value.ToHex();
     }
     
