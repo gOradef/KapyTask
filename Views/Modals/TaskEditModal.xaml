@@ -10,27 +10,44 @@
             <Label Text="Задача" Style="{StaticResource Headline}"/>
             <Border Padding="10">
                 <VerticalStackLayout>
+                    <!-- Select discipline -->
                     <Picker ItemsSource="{Binding Disciplines}" 
                             SelectedItem="{Binding SelectedDiscipline}" 
                             SelectedIndexChanged="PickerDiscipline_OnSelectedIndexChanged"
                             ItemDisplayBinding="{Binding Name}"
                             Title="Выберите дисциплину" 
-                            x:DataType="xviews:TaskEditModal"/>                    
+                            x:DataType="xviews:TaskEditModal"/>
+                    <!-- Select date -->
                     <VerticalStackLayout  x:DataType="xviews:TaskEditModal">
                         <Entry Placeholder="Введите название задачи" Text="{Binding KTask.Name}"/>
                         <Editor Placeholder="Описание задачи (опционально)" AutoSize="TextChanges" Text="{Binding KTask.Description}"/>
-                        <Grid ColumnDefinitions="*, auto, auto">
-                            <Label Grid.Column="0" Text="Желательное время выполенения" VerticalTextAlignment="Center" HorizontalTextAlignment="End"/>
-                            <Button Grid.Column="1" Text="Сбросить? 🔄️" BackgroundColor="Transparent" TextColor="CornflowerBlue" FontAttributes="Italic" Clicked="ButtonResetUserPlannedTime_OnClicked"/>
-                            <DatePicker Grid.Column="2" Date="{Binding KTask.UserPlannedTimeTodo}" HorizontalOptions="End"/>
-                        </Grid>
-                        <Grid ColumnDefinitions="*, auto">
-                            <Label Grid.Column="0" Text="Нужно выполнить к ..." VerticalTextAlignment="Center"/>
-                            <Picker Grid.Column="1" ItemsSource="{Binding SuggestedDeadlines}" SelectedItem="{Binding SelectedDeadline}" HorizontalOptions="End"/>
-                        </Grid>
+                        <VerticalStackLayout Padding="10">
+                            <Grid ColumnDefinitions="*, auto">
+                                <Label Grid.Column="0" Text="Установить произвольный дедлайн..." VerticalTextAlignment="Center" HorizontalTextAlignment="Start"/>
+                                <DatePicker Grid.Column="1"
+                                            DateSelected="DatePicker_OnCustomDateSelected" 
+                                            HorizontalOptions="End"/>
+                            </Grid>
+                            <Grid ColumnDefinitions="*, auto">
+                                <Label Grid.Column="0" Text="Привязять дедлайн к занятию..." VerticalTextAlignment="Center" HorizontalTextAlignment="Start"/>
+                                <Picker Grid.Column="1" 
+                                        ItemsSource="{Binding SuggestedDeadlines}" 
+                                        SelectedItem="{Binding SelectedSuggestedDeadline}" 
+                                        HorizontalOptions="End"/>
+                            </Grid>
+                        </VerticalStackLayout>
+                        <!-- Show current deadline -->
+                        <HorizontalStackLayout HorizontalOptions="End" Padding="5">
+                            <Label Text="Дедлайн: "/>
+                            <Label Text="{Binding DisplayedDeadline}"
+                                   FontAttributes="Bold"
+                                   HorizontalTextAlignment="End"/>
+                            
+                        </HorizontalStackLayout>
                     </VerticalStackLayout>
                 </VerticalStackLayout>
             </Border>
+            <!-- Navigation buttons -->
             <HorizontalStackLayout HorizontalOptions="End" Spacing="10">
                 <Button BackgroundColor="IndianRed" Text="Отмена" Clicked="ButtonClose_OnClicked"/>
                 <Button BackgroundColor="DarkSeaGreen" Text="Сохранить" Clicked="ButtonConfirm_OnClicked" VerticalOptions="End"/>

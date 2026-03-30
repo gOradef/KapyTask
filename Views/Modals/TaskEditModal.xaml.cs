@@ -45,7 +45,7 @@ public partial class TaskEditModal : ContentPage, INotifyPropertyChanged
                 KTask.DisciplineId = value.Id;
                 KTask.Discipline = value;
                 SetCurrentScheduleForDiscipline();
-                SuggestDeadlineDates(); // Предлагаем даты при выборе дисциплины
+                SuggestDeadlineDates();
             }
         }
     }
@@ -91,15 +91,42 @@ public partial class TaskEditModal : ContentPage, INotifyPropertyChanged
             OnPropertyChanged();
         }
     }
-    
-    
-    private DateTime _selectedDeadline;
-    public DateTime SelectedDeadline
+
+    private DateTime? _displayedDeadline;
+
+    public DateTime DisplayedDeadline
     {
-        get => _selectedDeadline;
+        get => _displayedDeadline ?? DateTime.Now;
         set
         {
-            _selectedDeadline = value;
+            _displayedDeadline = value;
+            OnPropertyChanged();
+        }
+    }
+
+    private DateTime _selectedCustomDeadline;
+    public DateTime SelectedCustomDeadline
+    {
+        get => _selectedCustomDeadline;
+        set
+        {
+            _selectedCustomDeadline = value;
+            
+            DisplayedDeadline = value;
+            KTask.Deadline = value;
+            OnPropertyChanged();
+        }
+    }
+    
+    private DateTime _selectedSuggestedDeadline;
+    public DateTime SelectedSuggestedDeadline
+    {
+        get => _selectedSuggestedDeadline;
+        set
+        {
+            _selectedSuggestedDeadline = value;
+            
+            DisplayedDeadline = value;
             KTask.Deadline = value;
             OnPropertyChanged();
         }
@@ -199,10 +226,10 @@ public partial class TaskEditModal : ContentPage, INotifyPropertyChanged
 
         if (KTask.Deadline == null && SuggestedDeadlines.Any())
         {
-            SelectedDeadline = SuggestedDeadlines.First();
+            SelectedSuggestedDeadline = SuggestedDeadlines.First();
         }
         else if (KTask.Deadline != null)
-            SelectedDeadline = (DateTime)KTask.Deadline;
+            SelectedSuggestedDeadline = (DateTime)KTask.Deadline;
     }
 
     /// <summary>
@@ -276,9 +303,11 @@ public partial class TaskEditModal : ContentPage, INotifyPropertyChanged
         SuggestDeadlineDates();
     }
 
-    private void ButtonResetUserPlannedTime_OnClicked(object? sender, EventArgs e)
+    private void DatePicker_OnCustomDateSelected(object? sender, DateChangedEventArgs e)
     {
-        KTask.UserPlannedTimeTodo = null;
-        OnPropertyChanged();
+        var picker = sender as DatePicker;
+        var date = picker?.Date;
+        if (date != null)
+            SelectedCustomDeadline = (DateTime)date;
     }
 }
