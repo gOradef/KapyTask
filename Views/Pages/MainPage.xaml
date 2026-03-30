@@ -13,7 +13,7 @@
             
             <Image
                 Source="cat_halo.png"
-                HeightRequest="200"
+                HeightRequest="150"
                 Aspect="Fill" 
                 Margin="-15, 0"/>
 
@@ -21,7 +21,9 @@
                 Text="Опмяя-eeeewh учиться 🐈"
                 Style="{StaticResource SubHeadline}" Padding="0, 0, 0, 10"/>
 
-            
+            <ActivityIndicator IsRunning="{Binding IsUpdating}"
+                               IsVisible="{Binding IsTasksLoaded}"
+                               x:DataType="xviews:MainPage"/>
             <CollectionView ItemsSource="{Binding DisplayedKTasks}"
                 x:DataType="xviews:MainPage"
                 SelectionChanged="ListViewTasks_OnItemSelected"
