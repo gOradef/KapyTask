@@ -6,7 +6,7 @@
              Title="О разработчике">
     
     <VerticalStackLayout Padding="15" Spacing="10" x:DataType="xviews:AboutPage">
-        <Label Text="Hola, от Alexandr" Style="{StaticResource SubHeadline}"/>
+        <Label Text="Hola, от Alexandr 👋" Style="{StaticResource SubHeadline}"/>
         <Label Text="> 'Я начинающий C# разработчик и данный проект был выполнен в учебных целях (читать я устал от Todoist).
         Я хотел сделать такое приложение, которые позволяло бы мне быстро и удобно создавать новые задачи, а также автоматически прикреплять их к занятиям в КАИ, 
         чтобы не выбирать каждый вручную дедлайн.'"/>
