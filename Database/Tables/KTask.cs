@@ -20,6 +20,9 @@ public class KTask
     
     public string? Description { get; set; }
     
+    /// <summary>
+    /// Pretty much unused
+    /// </summary>
     public DateTime? UserPlannedTimeTodo { get; set; } // sets user as optionable
     public DateTime? Deadline { get; set; } // gets from Schedule
     
@@ -49,6 +52,9 @@ public class KTask
             return result;
         }
     }
+
+    [Ignore] 
+    public string? DayOfWeekShortName => Deadline?.ToString("ddd");
 
     private DaysLeftRecord CreateDaysLeftRecord(DateTime DateInput)
     {
