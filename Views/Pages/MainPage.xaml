@@ -63,6 +63,9 @@
                                 <Label Text="{Binding Deadline}" 
                                        TextColor="Gray"
                                        FontSize="12"/>
+                                <Label Text="{Binding DayOfWeekShortName, StringFormat='({0})'}" 
+                                       TextColor="Gray"
+                                       FontSize="12"/>
                             </VerticalStackLayout>
                             
                             <Label Grid.Column="2" 
