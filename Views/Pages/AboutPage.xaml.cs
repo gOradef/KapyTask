@@ -10,5 +10,5 @@ public partial class AboutPage : ContentPage
         BindingContext = this;
     }
     
-    public ICommand TapCommand => new Command<string>(async (url) => await Launcher.OpenAsync(url));
+    public ICommand OpenUrl => new Command<string>(async (url) => await Launcher.OpenAsync(url));
 }

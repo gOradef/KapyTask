@@ -23,7 +23,7 @@
                           TextColor="DodgerBlue"
                           TextDecorations="Underline">
                         <Span.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding TapCommand}"
+                            <TapGestureRecognizer Command="{Binding OpenUrl}"
                                                   CommandParameter="https://t.me/efimovfff" />
                         </Span.GestureRecognizers>
                     </Span>
@@ -38,7 +38,7 @@
                           TextColor="DodgerBlue"
                           TextDecorations="Underline">
                         <Span.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding TapCommand}"
+                            <TapGestureRecognizer Command="{Binding OpenUrl}"
                                                   CommandParameter="https://github.com/gOradef" />
                         </Span.GestureRecognizers>
                     </Span>
@@ -53,7 +53,7 @@
                           TextColor="DodgerBlue"
                           TextDecorations="Underline">
                         <Span.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding TapCommand}"
+                            <TapGestureRecognizer Command="{Binding OpenUrl}"
                                                   CommandParameter="https://kazan.hh.ru/resume/93d6cedfff0fee0f390039ed1f6a73786f7557" />
                         </Span.GestureRecognizers>
                     </Span>
