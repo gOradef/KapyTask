@@ -15,6 +15,7 @@ public partial class KapyTaskDatabase
         Db = new SQLiteAsyncConnection(Constants.DatabasePath, Constants.Flags);
         await Db.CreateTableAsync<KDiscipline>();
         await Db.CreateTableAsync<KTask>();
+        await Db.CreateTableAsync<ArchivedKTask>();
         await Db.CreateTableAsync<KSchedule>();
     }
     
