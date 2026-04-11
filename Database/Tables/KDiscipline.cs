@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using SQLite;
 
 namespace KapyTask.Database.Tables;
@@ -10,9 +11,9 @@ public class KDiscipline
     [NotNull] 
     public string Name { get; set; } = null!;
     
-    public string? ColorHexValue { get; set; } // color as rgba (color as hex)
+    public string? ColorHexValue { get; set; } // color as hex
     
-    [Ignore]
+    [Ignore, JsonIgnore]
     public Color Color
     {
         get => ColorHexValue is null ? Colors.Gray : Color.FromArgb(ColorHexValue);
