@@ -5,21 +5,11 @@ namespace KapyTask.Database;
 
 public partial class KapyTaskDatabase
 {
-    public class DisciplineOperations
-    {
-        private readonly KapyTaskDatabase _database;
-        
-        internal DisciplineOperations(KapyTaskDatabase database)
-        {
-            _database = database;
-        }
-        
-        private async Task<SQLiteAsyncConnection> GetDb()
-        {
-            await _database.EnsureInitialized();
-            return _database.Db;
-        }
+    private DisciplineOperations _disciplines;
+    public DisciplineOperations Disciplines => _disciplines ??= new DisciplineOperations(this);
 
+    public class DisciplineOperations(KapyTaskDatabase db) : BaseOperations(db)
+    {
         public async Task<List<KDiscipline>> GetDisciplines()
         {
             var db = await GetDb();
@@ -65,7 +55,4 @@ public partial class KapyTaskDatabase
             await db.DeleteAsync(item);
         }
     }
-
-    private DisciplineOperations _disciplines;
-    public DisciplineOperations Disciplines => _disciplines ??= new DisciplineOperations(this);
 }

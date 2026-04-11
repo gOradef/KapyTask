@@ -6,21 +6,11 @@ namespace KapyTask.Database;
 
 public partial class KapyTaskDatabase
 {
-    public class ScheduleOperations
+    private ScheduleOperations _schedule;
+    public ScheduleOperations Schedule => _schedule ??= new ScheduleOperations(this);
+
+    public class ScheduleOperations(KapyTaskDatabase db) : BaseOperations(db)
     {
-        private readonly KapyTaskDatabase _database;
-        
-        internal ScheduleOperations(KapyTaskDatabase database)
-        {
-            _database = database;
-        }
-        
-        private async Task<SQLiteAsyncConnection> GetDb()
-        {
-            await _database.EnsureInitialized();
-            return _database.Db;
-        }
-        
         /// <summary>
         /// Get schedule of user 
         /// </summary>
@@ -82,7 +72,4 @@ public partial class KapyTaskDatabase
             await db.DeleteAsync(scheduleItem);
         }
     }
-
-    private ScheduleOperations _schedule;
-    public ScheduleOperations Schedule => _schedule ??= new ScheduleOperations(this);
 }

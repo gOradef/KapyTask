@@ -12,21 +12,8 @@ public partial class KapyTaskDatabase
     /// <summary>
     /// Used to export and import user's config.
     /// </summary>
-    public class ConfigOperations
+    public class ConfigOperations(KapyTaskDatabase db) : BaseOperations(db)
     {
-        private readonly KapyTaskDatabase _db;
-
-        internal ConfigOperations(KapyTaskDatabase db)
-        {
-            _db = db;
-        }
-        
-        private async Task<SQLiteAsyncConnection> GetDb()
-        {
-            await _db.EnsureInitialized();
-            return _db.Db;
-        }
-
         public async void BackupDatabase()
         {
             var db = await GetDb();

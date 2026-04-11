@@ -5,22 +5,11 @@ namespace KapyTask.Database;
 
 public partial class KapyTaskDatabase
 {
-
-    public class TasksOperations
+    private TasksOperations _tasks;
+    public TasksOperations Tasks => _tasks ??= new TasksOperations(this);
+    
+    public class TasksOperations(KapyTaskDatabase db) : BaseOperations(db)
     {
-        private readonly KapyTaskDatabase _db;
-
-        internal TasksOperations(KapyTaskDatabase db)
-        {
-            _db = db;
-        }
-
-        private async Task<SQLiteAsyncConnection> GetDb()
-        {
-            await _db.EnsureInitialized();
-            return _db.Db;
-        }
-
         public async Task<List<KTask>> GetTasks()
         {
             var db = await GetDb();
@@ -60,8 +49,4 @@ public partial class KapyTaskDatabase
             await db.DeleteAsync(task);
         }
     }
-
-    private TasksOperations _tasks;
-    public TasksOperations Tasks => _tasks ??= new TasksOperations(this);
-
 }
