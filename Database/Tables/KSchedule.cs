@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using SQLite;
 
 namespace KapyTask.Database.Tables;
@@ -15,12 +16,12 @@ public class KSchedule
     public KDayOfWeek DayOfWeek { get; set; }
     public bool IsEvenWeek { get; set; }
     
-    [Ignore]
+    [Ignore, JsonIgnore]
     public TimeOnly TimeOfClass
     {
         get => TimeOnly.FromTimeSpan(TimeSpan.FromTicks(TimeOfClassTicks));
         set => TimeOfClassTicks = value.ToTimeSpan().Ticks;
     }
-    [Ignore]
+    [Ignore, JsonIgnore]
     public string DisciplineName { get; set; }
 }
