@@ -6,6 +6,9 @@ namespace KapyTask.Database;
 
 public partial class KapyTaskDatabase
 {
+    private ConfigOperations _config;
+    public ConfigOperations Config => _config ??= new ConfigOperations(this);
+    
     /// <summary>
     /// Used to export and import user's config.
     /// </summary>

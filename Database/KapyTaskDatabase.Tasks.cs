@@ -64,6 +64,4 @@ public partial class KapyTaskDatabase
     private TasksOperations _tasks;
     public TasksOperations Tasks => _tasks ??= new TasksOperations(this);
 
-    private ConfigOperations _config;
-    public ConfigOperations Config => _config ??= new ConfigOperations(this);
 }
