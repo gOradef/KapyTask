@@ -46,7 +46,7 @@ public class KTask
         var days = ((TimeSpan)(DateInput - DateTime.Today)).Days;
         return days switch
         {
-            < 0 => new("Просрочено", Colors.IndianRed),
+            < 0 => new($"Просрочено на {Math.Abs(days)}д.", Colors.IndianRed),
             0 => new("Сегодня", Colors.IndianRed),
             >= 4 => new($"Через {days}д.", Colors.CornflowerBlue),
             >= 2 => new($"Осталось {days}д.", Color.FromRgb(233, 213, 2)),
