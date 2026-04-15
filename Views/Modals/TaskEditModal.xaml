@@ -36,7 +36,8 @@
                                         HorizontalOptions="End"/>
                             </Grid>
                         </VerticalStackLayout>
-                        <!-- Show current deadline -->
+                        
+                        <!-- Display current deadline -->
                         <HorizontalStackLayout HorizontalOptions="End" Padding="5">
                             <Label Text="Дедлайн: "/>
                             <Label Text="{Binding DisplayedDeadline}"
