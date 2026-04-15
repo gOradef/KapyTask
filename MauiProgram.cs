@@ -1,5 +1,6 @@
 ﻿using KapyTask.Database;
 using Microsoft.Extensions.Logging;
+using HorusStudio.Maui.MaterialDesignControls;
 
 namespace KapyTask;
 
@@ -10,6 +11,13 @@ public static class MauiProgram
         var builder = MauiApp.CreateBuilder();
         builder
             .UseMauiApp<App>()
+            .UseMaterialDesignControls(options =>
+            {
+                // options.ConfigureFontSizeFromResources();
+                // options.OnException((ex) =>
+                // {
+                // });
+            })
             .ConfigureFonts(fonts =>
             {
                 fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");

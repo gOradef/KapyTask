@@ -10,7 +10,7 @@ namespace KapyTask.Views.Modals;
 /// </summary>
 public partial class TaskEditModal : ContentPage, INotifyPropertyChanged
 {
-    private KapyTaskDatabase db;
+    private static KapyTaskDatabase? db;
 
     private KTask _kTask = new();
 

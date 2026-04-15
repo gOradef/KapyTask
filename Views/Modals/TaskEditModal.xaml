@@ -1,58 +1,97 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:xviews="clr-namespace:KapyTask.Views.Modals"
-             x:Class="KapyTask.Views.Modals.TaskEditModal"
-             Title="Задача">
-    
+<ContentPage
+    x:Class="KapyTask.Views.Modals.TaskEditModal"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:material="clr-namespace:HorusStudio.Maui.MaterialDesignControls;assembly=HorusStudio.Maui.MaterialDesignControls"
+    xmlns:xviews="clr-namespace:KapyTask.Views.Modals"
+    Title="Задача"
+    x:DataType="xviews:TaskEditModal">
+
     <ScrollView>
-        <VerticalStackLayout Spacing="20" Padding="20">
-            <Label Text="Задача" Style="{StaticResource Headline}"/>
-            <Border Padding="10">
+        <VerticalStackLayout Padding="20" Spacing="20">
+            <Label Style="{StaticResource Headline}" Text="Задача" />
+            <material:MaterialCard Padding="10">
                 <VerticalStackLayout>
-                    <!-- Select discipline -->
-                    <Picker ItemsSource="{Binding Disciplines}" 
-                            SelectedItem="{Binding SelectedDiscipline}" 
-                            SelectedIndexChanged="PickerDiscipline_OnSelectedIndexChanged"
-                            ItemDisplayBinding="{Binding Name}"
-                            Title="Выберите дисциплину" 
-                            x:DataType="xviews:TaskEditModal"/>
-                    <!-- Select date -->
-                    <VerticalStackLayout  x:DataType="xviews:TaskEditModal">
-                        <Entry Placeholder="Введите название задачи" Text="{Binding KTask.Name}"/>
-                        <Editor Placeholder="Описание задачи (опционально)" AutoSize="TextChanges" Text="{Binding KTask.Description}"/>
+                    <!--  Select discipline  -->
+                    <material:MaterialPicker
+                        x:DataType="xviews:TaskEditModal"
+                        ItemDisplayPath="Name"
+                        ItemsSource="{Binding Disciplines}"
+                        Placeholder="Выберите дисциплину"
+                        SelectedIndexChanged="PickerDiscipline_OnSelectedIndexChanged"
+                        SelectedItem="{Binding SelectedDiscipline, Mode=TwoWay}"
+                        Type="Outlined" />
+
+                    <VerticalStackLayout x:DataType="xviews:TaskEditModal">
+                        <!--  Fields to fill  -->
+                        <material:MaterialTextField Placeholder="Введите название задачи" Text="{Binding KTask.Name}" />
+                        <material:MaterialMultilineTextField
+                            AutoSize="TextChanges"
+                            HeightRequest="Infinity"
+                            Placeholder="Описание задачи (опционально)"
+                            Text="{Binding KTask.Description}" />
+
+                        <!--  Select date  -->
                         <VerticalStackLayout Padding="10">
                             <Grid ColumnDefinitions="*, auto">
-                                <Label Grid.Column="0" Text="Установить произвольный дедлайн..." VerticalTextAlignment="Center" HorizontalTextAlignment="Start"/>
-                                <DatePicker Grid.Column="1"
-                                            DateSelected="DatePicker_OnCustomDateSelected" 
-                                            HorizontalOptions="End"/>
+                                <Label
+                                    Grid.Column="0"
+                                    HorizontalTextAlignment="Start"
+                                    Text="Установить произвольный дедлайн..."
+                                    VerticalTextAlignment="Center" />
+                                <DatePicker
+                                    Grid.Column="1"
+                                    DateSelected="DatePicker_OnCustomDateSelected"
+                                    HorizontalOptions="End" />
                             </Grid>
-                            <Grid ColumnDefinitions="*, auto">
-                                <Label Grid.Column="0" Text="Привязять дедлайн к занятию..." VerticalTextAlignment="Center" HorizontalTextAlignment="Start"/>
-                                <Picker Grid.Column="1" 
-                                        ItemsSource="{Binding SuggestedDeadlines}" 
-                                        SelectedItem="{Binding SelectedSuggestedDeadline}" 
-                                        HorizontalOptions="End"/>
+                            <Grid ColumnDefinitions="*, *">
+                                <Label
+                                    Grid.Column="0"
+                                    HorizontalTextAlignment="Start"
+                                    Text="Привязять дедлайн к занятию..."
+                                    VerticalTextAlignment="Center" />
+                                <material:MaterialPicker
+                                    Grid.Column="1"
+                                    FontSize="14"
+                                    HorizontalOptions="End"
+                                    ItemsSource="{Binding SuggestedDeadlines}"
+                                    Placeholder="Занятие"
+                                    SelectedItem="{Binding SelectedSuggestedDeadline}" />
                             </Grid>
                         </VerticalStackLayout>
-                        
-                        <!-- Display current deadline -->
-                        <HorizontalStackLayout HorizontalOptions="End" Padding="5">
-                            <Label Text="Дедлайн: "/>
-                            <Label Text="{Binding DisplayedDeadline}"
-                                   FontAttributes="Bold"
-                                   HorizontalTextAlignment="End"/>
-                            
+
+                        <!--  Display current deadline  -->
+                        <HorizontalStackLayout Padding="5" HorizontalOptions="End">
+                            <Label Text="Дедлайн: " />
+                            <Label
+                                FontAttributes="Bold"
+                                HorizontalTextAlignment="End"
+                                Text="{Binding DisplayedDeadline}" />
                         </HorizontalStackLayout>
                     </VerticalStackLayout>
                 </VerticalStackLayout>
-            </Border>
-            <!-- Navigation buttons -->
+            </material:MaterialCard>
+
+            <!--  Navigation buttons  -->
             <HorizontalStackLayout HorizontalOptions="End" Spacing="10">
-                <Button BackgroundColor="IndianRed" Text="Отмена" Clicked="ButtonClose_OnClicked"/>
-                <Button BackgroundColor="DarkSeaGreen" Text="Сохранить" Clicked="ButtonConfirm_OnClicked" VerticalOptions="End"/>
+                <material:MaterialButton
+                    BorderColor="IndianRed"
+                    Clicked="ButtonClose_OnClicked"
+                    Text="Отмена"
+                    Type="Outlined" />
+                <material:MaterialButton
+                    Clicked="ButtonConfirmChanges_OnClicked"
+                    Text="{Binding ButtonConfirmText}"
+                    VerticalOptions="End" />
             </HorizontalStackLayout>
+            <material:MaterialButton
+                BackgroundColor="DarkSeaGreen"
+                Clicked="MaterialButtonArchiveTask_OnClicked"
+                HorizontalOptions="End"
+                IsVisible="{Binding IsOldTask}"
+                Text="Выполнить задачу"
+                WidthRequest="NaN" />
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

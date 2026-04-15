@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using KapyTask.Database;
 using KapyTask.Database.Tables;
@@ -9,7 +10,9 @@ namespace KapyTask.Views.Pages;
 public partial class MainPage : ContentPage, INotifyPropertyChanged
 {
     private KapyTaskDatabase db;
-    private bool _isUpdating = false; // var to cancel tasks that already running
+    private bool _isUpdating = false;
+    private CancellationTokenSource _updateCts;
+    
     public bool IsUpdating
     {
         get => _isUpdating;
