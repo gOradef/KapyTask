@@ -94,7 +94,7 @@ public partial class TaskEditModal : ContentPage, INotifyPropertyChanged
 
     private DateTime? _displayedDeadline;
 
-    public DateTime DisplayedDeadline
+    public DateTime? DisplayedDeadline
     {
         get => _displayedDeadline ?? DateTime.Now;
         set
@@ -104,8 +104,8 @@ public partial class TaskEditModal : ContentPage, INotifyPropertyChanged
         }
     }
 
-    private DateTime _selectedCustomDeadline;
-    public DateTime SelectedCustomDeadline
+    private DateTime? _selectedCustomDeadline;
+    public DateTime? SelectedCustomDeadline
     {
         get => _selectedCustomDeadline;
         set
@@ -118,8 +118,8 @@ public partial class TaskEditModal : ContentPage, INotifyPropertyChanged
         }
     }
     
-    private DateTime _selectedSuggestedDeadline;
-    public DateTime SelectedSuggestedDeadline
+    private DateTime? _selectedSuggestedDeadline;
+    public DateTime? SelectedSuggestedDeadline
     {
         get => _selectedSuggestedDeadline;
         set
@@ -143,18 +143,30 @@ public partial class TaskEditModal : ContentPage, INotifyPropertyChanged
         }
     }
 
+    public bool IsOldTask { get => !IsNewTask; }
+    
+    /// Returns 'new task' or 'apply changes' text
+    public string ButtonConfirmText => IsNewTask ? "Создать задачу" : "Применить изменения";
+
     public TaskEditModal(KTask? givenKTask = null)
     {
         InitializeComponent();
         db = new();
-        BindingContext = this; //fall for null
+        IsNewTask = givenKTask == null; // DONT MOVE. LOAD IsNewTask before binding,
+                                        // so UI(archive task button) will be validly shown.
+        BindingContext = this;
+        Task.Run(() =>
+        {
+            KTask = givenKTask ?? new KTask();
+        });
+    }
 
-        Task.Run(async () => await LoadDisciplines());
-        Task.Run(async () => await LoadSchedule());
+    protected async override void OnAppearing()
+    {
+        base.OnAppearing();
 
-        KTask = givenKTask ?? new KTask();
-
-        IsNewTask = givenKTask == null;
+        await Task.Run(async () => await LoadDisciplines());
+        await Task.Run(async () => await LoadSchedule());
     }
 
     private async Task LoadSchedule()
@@ -252,14 +264,11 @@ public partial class TaskEditModal : ContentPage, INotifyPropertyChanged
         return weekNumber % 2 != 1;
     }
 
-    protected override async void OnAppearing()
-    {
-        base.OnAppearing();
-    }
-
     private async Task LoadDisciplines()
     {
-        var disciplines = (await db.Disciplines.GetDisciplines()).OrderBy(a => a.Name).ToList();
+        var disciplines = (await db.Disciplines.GetDisciplines())
+            .OrderBy(a => a.Name)
+            .ToList();
         
         MainThread.BeginInvokeOnMainThread(() =>
         {
@@ -270,11 +279,11 @@ public partial class TaskEditModal : ContentPage, INotifyPropertyChanged
     /// <summary>
     /// Dumps current task to database
     /// </summary>
-    private async void ButtonConfirm_OnClicked(object? sender, EventArgs e)
+    private async void ButtonConfirmChanges_OnClicked(object? sender, EventArgs e)
     {
         if (string.IsNullOrWhiteSpace(KTask.Name))
         {
-            await DisplayAlert("Ошибка", "Введите название задачи", "OK");
+            await DisplayAlertAsync("Ошибка", "Введите название задачи", "OK");
             return;
         }
 
@@ -283,12 +292,28 @@ public partial class TaskEditModal : ContentPage, INotifyPropertyChanged
             await db.Tasks.InsertTask(KTask);
             Debug.WriteLine($"Inserted: {KTask}");
             await Navigation.PopModalAsync();
+            return;
         }
-        else if (await DisplayAlert("Подтверждение", "Сохранить задачу?", "Да", "Нет"))
+        
+        if (await DisplayAlertAsync("Подтверждение", "Сохранить задачу?", "Да", "Нет"))
         {
             await db.Tasks.InsertTask(KTask);
             Debug.WriteLine($"Inserted: {KTask}");
             await Navigation.PopModalAsync();
+            return;
+        }
+    }
+    
+    /// <summary>
+    /// Should not be able to execute if IsNewTask
+    /// </summary>
+    private async void MaterialButtonArchiveTask_OnClicked(object? sender, EventArgs e)
+    {
+        if (await DisplayAlertAsync("Подтверждение", "Архивировать задачу?", "Да", "Нет"))
+        {
+            await db.ArchivedTasks.ArchiveTask(KTask);
+            Debug.Write(KTask);
+            return;
         }
     }
 
