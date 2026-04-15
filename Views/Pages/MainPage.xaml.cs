@@ -231,8 +231,7 @@ public partial class MainPage : ContentPage, INotifyPropertyChanged
         if (await DisplayAlertAsync("Подтверждение", "Точно очистить ВЕСЬ архив?", "Да", "Нет"))
         {
             var deleted = await db.ArchivedTasks.ClearWholeArchive();
-            var toast = Toast.Make($"Удалено из архива: {deleted}", ToastDuration.Short);
-            await toast.Show();
+            await Toast.Make($"Удалено из архива: {deleted}", ToastDuration.Short).Show();
         }
     }
 }

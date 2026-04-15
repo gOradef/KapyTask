@@ -1,5 +1,7 @@
 using System.ComponentModel;
 using System.Diagnostics;
+using CommunityToolkit.Maui.Core;
+using CommunityToolkit.Maui.Alerts;
 using KapyTask.Database;
 using KapyTask.Database.Tables;
 using DatePicker = Microsoft.Maui.Controls.DatePicker;
@@ -292,6 +294,7 @@ public partial class TaskEditModal : ContentPage, INotifyPropertyChanged
         {
             await db.Tasks.InsertTask(KTask);
             Debug.WriteLine($"Inserted: {KTask}");
+            await Toast.Make($"Задача '{KTask.Name}' добавлена.").Show();
             await Navigation.PopModalAsync();
             return;
         }
@@ -300,6 +303,7 @@ public partial class TaskEditModal : ContentPage, INotifyPropertyChanged
         {
             await db.Tasks.InsertTask(KTask);
             Debug.WriteLine($"Inserted: {KTask}");
+            await Toast.Make($"Задача '{KTask.Name}' сохранена.").Show();
             await Navigation.PopModalAsync();
             return;
         }
@@ -313,6 +317,8 @@ public partial class TaskEditModal : ContentPage, INotifyPropertyChanged
         if (await DisplayAlertAsync("Подтверждение", "Архивировать задачу?", "Да", "Нет"))
         {
             await db.ArchivedTasks.ArchiveTask(KTask);
+            await Toast.Make($"Задача '{KTask.Name}' архивирована.").Show();
+            await Navigation.PopModalAsync();
         }
     }
 
