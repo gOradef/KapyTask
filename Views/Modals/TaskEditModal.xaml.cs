@@ -95,19 +95,24 @@ public partial class TaskEditModal : ContentPage, INotifyPropertyChanged
         }
     }
 
-    private DateTime? _displayedDeadline;
+    private string? _displayedDeadline;
 
-    public DateTime? DisplayedDeadline
+    public string? DisplayedDeadline
     {
-        get => _displayedDeadline ?? DateTime.Now;
+        get 
+        {
+            if (_displayedDeadline == "" || _displayedDeadline == null)
+                return "Не установлено";
+            return _displayedDeadline;
+        }
         set
         {
             _displayedDeadline = value;
             OnPropertyChanged();
         }
     }
-
-    private DateTime? _selectedCustomDeadline;
+    
+    private DateTime? _selectedCustomDeadline = null;
     public DateTime? SelectedCustomDeadline
     {
         get => _selectedCustomDeadline;
@@ -115,7 +120,7 @@ public partial class TaskEditModal : ContentPage, INotifyPropertyChanged
         {
             _selectedCustomDeadline = value;
             
-            DisplayedDeadline = value;
+            DisplayedDeadline = value.ToString();
             KTask.Deadline = value;
             OnPropertyChanged();
         }
@@ -129,7 +134,7 @@ public partial class TaskEditModal : ContentPage, INotifyPropertyChanged
         {
             _selectedSuggestedDeadline = value;
             
-            DisplayedDeadline = value;
+            DisplayedDeadline = value.ToString();
             KTask.Deadline = value;
             OnPropertyChanged();
         }
@@ -305,7 +310,6 @@ public partial class TaskEditModal : ContentPage, INotifyPropertyChanged
             Debug.WriteLine($"Inserted: {KTask}");
             await Toast.Make($"Задача '{KTask.Name}' сохранена.").Show();
             await Navigation.PopModalAsync();
-            return;
         }
     }
     
@@ -333,11 +337,9 @@ public partial class TaskEditModal : ContentPage, INotifyPropertyChanged
         SuggestDeadlineDates();
     }
 
-    private void DatePicker_OnCustomDateSelected(object? sender, DateChangedEventArgs e)
+    private void MaterialIconButtonResetDeadline_OnClicked(object? sender, EventArgs e)
     {
-        var picker = sender as DatePicker;
-        var date = picker?.Date;
-        if (date != null)
-            SelectedCustomDeadline = (DateTime)date;
+        SelectedCustomDeadline = null;
+        SelectedSuggestedDeadline = null;
     }
 }

@@ -40,10 +40,11 @@
                                     HorizontalTextAlignment="Start"
                                     Text="Установить произвольный дедлайн..."
                                     VerticalTextAlignment="Center" />
-                                <DatePicker
-                                    Grid.Column="1"
-                                    DateSelected="DatePicker_OnCustomDateSelected"
-                                    HorizontalOptions="End" />
+                                <HorizontalStackLayout Grid.Column="1">
+
+                                    <DatePicker Date="{Binding SelectedCustomDeadline}" HorizontalOptions="End" />
+                                    <material:MaterialIconButton Clicked="MaterialIconButtonResetDeadline_OnClicked" ImageSource="reset.png" />
+                                </HorizontalStackLayout>
                             </Grid>
                             <Grid ColumnDefinitions="*, *">
                                 <Label
