@@ -8,6 +8,7 @@ namespace KapyTask.Database.Tables;
 /// </summary>
 public class KTask
 {
+    
     [PrimaryKey, AutoIncrement]
     public int Id { get; set; }
 
@@ -32,26 +33,10 @@ public class KTask
 
     [Ignore]
     // Requires to Deadline property to be set
-    public DaysLeftRecord DaysLeft
-    {
-        get
-        {
-            var isUserHasSetCustomTimeTodo = UserPlannedTimeTodo is not null;
-            var isDeadlineSetted = Deadline is not null;
-
-            switch (isDeadlineSetted)
-            {
-                case false when !isUserHasSetCustomTimeTodo:
-                    return new("Не установлено", Colors.Gray);
-                case true when !isUserHasSetCustomTimeTodo:
-                    return CreateDaysLeftRecord((DateTime)Deadline!);
-            }
-
-            var result = CreateDaysLeftRecord((DateTime)UserPlannedTimeTodo!);
-            result = result with { DaysLeftText = result.DaysLeftText + " (польз.)" };
-            return result;
-        }
-    }
+    public DaysLeftRecord DaysLeft =>
+        Deadline != null ?
+            CreateDaysLeftRecord((DateTime)Deadline!) 
+            : new("Не установлено", Colors.Gray);
 
     [Ignore] 
     public string? DayOfWeekShortName => Deadline?.ToString("ddd");

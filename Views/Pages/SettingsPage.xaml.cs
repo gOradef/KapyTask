@@ -36,7 +36,7 @@ public partial class SettingsPage : ContentPage
         try
         {
             // Подтверждение от пользователя
-            var confirm = await DisplayAlert("Импорт данных", 
+            var confirm = await DisplayAlertAsync("Импорт данных", 
                 "⚠️ ВНИМАНИЕ: При импорте существующие данные будут удалены!\n\n" +
                 "Рекомендуется сделать экспорт перед импортом.\n\n" +
                 "Продолжить?", 
@@ -70,15 +70,15 @@ public partial class SettingsPage : ContentPage
                 // Импортируем данные
                 await db.Config.ImportDisciplinesAndScheduleSimpleAsync(jsonContent);
                 
-                await DisplayAlert("Успех", "✅ Данные успешно импортированы!", "OK");
+                await DisplayAlertAsync("Успех", "✅ Данные успешно импортированы!", "OK");
                 
                 // Отправляем уведомление об обновлении данных
-                MessagingCenter.Send(this, "DataImported");
+                // var el = Toast.MakeText("Test", ToastLength.Short, 14);
             }
         }
         catch (Exception ex)
         {
-            await DisplayAlert("Ошибка", $"❌ Не удалось импортировать данные:\n{ex.Message}", "OK");
+            await DisplayAlertAsync("Ошибка", $"❌ Не удалось импортировать данные:\n{ex.Message}", "OK");
         }
         finally
         {
@@ -110,11 +110,11 @@ public partial class SettingsPage : ContentPage
                 File = new ShareFile(tempFile, "application/json")
             });
             
-            await DisplayAlert("Успех", "✅ Данные готовы к экспорту", "OK");
+            await DisplayAlertAsync("Успех", "✅ Данные готовы к экспорту", "OK");
         }
         catch (Exception ex)
         {
-            await DisplayAlert("Ошибка", $"❌ Не удалось экспортировать данные:\n{ex.Message}", "OK");
+            await DisplayAlertAsync("Ошибка", $"❌ Не удалось экспортировать данные:\n{ex.Message}", "OK");
         }
         finally
         {

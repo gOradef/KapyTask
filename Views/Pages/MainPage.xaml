@@ -1,111 +1,185 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:xviews="clr-namespace:KapyTask.Views.Pages"
-             xmlns:xtables="clr-namespace:KapyTask.Database.Tables"
-             xmlns:material="clr-namespace:HorusStudio.Maui.MaterialDesignControls;assembly=HorusStudio.Maui.MaterialDesignControls"
-             x:Class="KapyTask.Views.Pages.MainPage"
-             Title="Текущие задачи">
+<ContentPage
+    x:Class="KapyTask.Views.Pages.MainPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:material="clr-namespace:HorusStudio.Maui.MaterialDesignControls;assembly=HorusStudio.Maui.MaterialDesignControls"
+    xmlns:xtables="clr-namespace:KapyTask.Database.Tables"
+    xmlns:xviews="clr-namespace:KapyTask.Views.Pages"
+    Title="Текущие задачи">
 
     <ScrollView VerticalScrollBarVisibility="Never">
-        <VerticalStackLayout
-            Padding="10, 0, 10,30"
-            Spacing="20">
+        <VerticalStackLayout Padding="10,0,10,30" Spacing="20">
             <Image
-                Source="cat_halo.png"
-                HeightRequest="150"
+                Margin="-15,0"
                 Aspect="Fill"
-                Margin="-15, 0"/>
-        
+                HeightRequest="150"
+                Source="cat_halo.png" />
+
             <Label
-                Text="Опмяя-eeeewh учиться 🐈"
-                Style="{StaticResource SubHeadline}" Padding="0, 0, 0, 10"/>
-        
-            <ActivityIndicator IsRunning="{Binding IsUpdating}"
-                               IsVisible="{Binding IsTasksLoaded}"
-                               x:DataType="xviews:MainPage"/>
-            <CollectionView 
-                x:Name="TasksCollectionView"
-                ItemsSource="{Binding DisplayedKTasks}"
+                Padding="0,0,0,10"
+                Style="{StaticResource SubHeadline}"
+                Text="Опмяя-eeeewh учиться 🐈" />
+
+            <ActivityIndicator
                 x:DataType="xviews:MainPage"
+                IsRunning="{Binding IsUpdating}"
+                IsVisible="{Binding IsTasksLoaded}" />
+            <CollectionView
+                x:Name="TasksCollectionView"
+                x:DataType="xviews:MainPage"
+                ItemsSource="{Binding DisplayedKTasks}"
                 SelectionChanged="ListViewTasks_OnItemSelected"
                 SelectionMode="Single">
-    
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="xtables:KTask">
                         <VerticalStackLayout>
+                            <material:MaterialCard Margin="3" Type="Elevated">
+
+                                <Grid Padding="20,5" ColumnDefinitions="*, *, *, auto">
+                                    <VerticalStackLayout Grid.Column="0">
+                                        <Label Text="{Binding Name}" />
+                                        <Label IsVisible="{Binding IsHasDescription}" Text="..." />
+                                    </VerticalStackLayout>
+
+                                    <VerticalStackLayout Grid.Column="1">
+                                        <Label
+                                            FontAttributes="Bold, Italic"
+                                            FontSize="12"
+                                            Scale="1.05"
+                                            Text="{Binding Discipline.Name}"
+                                            TextColor="{Binding Discipline.Color}" />
+                                        <Label
+                                            FontSize="12"
+                                            Text="{Binding Deadline}"
+                                            TextColor="Gray" />
+                                        <Label
+                                            FontSize="12"
+                                            Text="{Binding DayOfWeekShortName, StringFormat='({0})'}"
+                                            TextColor="Gray" />
+                                    </VerticalStackLayout>
+
+                                    <Label
+                                        Grid.Column="2"
+                                        Text="{Binding DaysLeft.DaysLeftText}"
+                                        TextColor="{Binding DaysLeft.Color}"
+                                        VerticalTextAlignment="Center" />
+
+                                    <CheckBox
+                                        Grid.Column="3"
+                                        CheckedChanged="ButtonArchiveItem_OnClicked"
+                                        HorizontalOptions="End"
+                                        IsChecked="False" />
+                                </Grid>
+                            </material:MaterialCard>
+                            <material:MaterialDivider Margin="3" />
                             <VisualStateManager.VisualStateGroups>
                                 <VisualStateGroup x:Name="CommonStates">
                                     <VisualState x:Name="Normal">
                                         <VisualState.Setters>
-                                            <Setter Property="BackgroundColor" Value="Transparent"/>
+                                            <Setter Property="BackgroundColor" Value="Transparent" />
                                         </VisualState.Setters>
                                     </VisualState>
                                     <VisualState x:Name="Selected">
                                         <VisualState.Setters>
-                                            <Setter Property="BackgroundColor" Value="{StaticResource Gray600}"/>
+                                            <Setter Property="BackgroundColor" Value="{StaticResource Gray600}" />
                                         </VisualState.Setters>
                                     </VisualState>
                                 </VisualStateGroup>
                             </VisualStateManager.VisualStateGroups>
-                            <material:MaterialCard Type="Elevated" Margin="3">
-        
-                            <Grid Padding="20,5"
-                                    ColumnDefinitions="*, *, *, auto">
-                                <VerticalStackLayout Grid.Column="0">
-                                    <Label Text="{Binding Name}"/>
-                                    <Label Text="..." IsVisible="{Binding IsHasDescription}"/>
-                                </VerticalStackLayout>
-        
-                                <VerticalStackLayout Grid.Column="1">
-                                    <Label Text="{Binding Discipline.Name}"
-                                           TextColor="{Binding Discipline.Color}"
-                                           FontAttributes="Bold, Italic"
-                                           FontSize="12"
-                                           Scale="1.05"/>
-                                    <Label Text="{Binding Deadline}"
-                                           TextColor="Gray"
-                                           FontSize="12"/>
-                                    <Label Text="{Binding DayOfWeekShortName, StringFormat='({0})'}"
-                                           TextColor="Gray"
-                                           FontSize="12"/>
-                                </VerticalStackLayout>
-        
-                                <Label Grid.Column="2"
-                                       Text="{Binding DaysLeft.DaysLeftText}"
-                                       TextColor="{Binding DaysLeft.Color}"
-                                       VerticalTextAlignment="Center"/>
-        
-                                <CheckBox Grid.Column="3"
-                                          IsChecked="False"
-                                          CheckedChanged="ButtonArchiveItem_OnClicked"
-                                          HorizontalOptions="End"/>
-                            </Grid>
-                            </material:MaterialCard>
-                            <material:MaterialDivider Margin="3"/>
                         </VerticalStackLayout>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
-            <material:MaterialButton Text="Создать новую задачу"
-        
-                    Clicked="ButtonCreateTask_Clicked"/>
-            <Button
-                Text="Развернуть архив задач 🗑️"
-                TextColor="White"
+            <material:MaterialButton Clicked="ButtonCreateTask_Clicked" Text="Создать новую задачу" />
+            <material:MaterialButton
+                x:DataType="xviews:MainPage"
                 BackgroundColor="{StaticResource Gray600}"
-                Clicked="ButtonShowArchive_OnClicked"/>
-            <VerticalStackLayout x:Name="ArchiveTasksVsl" IsEnabled="False" IsVisible="False">
-                <Button Text="Очистить архив"
-                        BackgroundColor="IndianRed"
-                        Clicked="ButtonClearArchiveTasksList_OnClicked"/>
-                <CollectionView>
-                    <CollectionView.ItemTemplate>
-                        <DataTemplate>
-        
-                        </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
+                Command="{Binding ButtonToggleArchiveList}"
+                IsBusy="{Binding IsLoadingArchivedTasks}"
+                Text="Развернуть архив задач 🗑️"
+                TextColor="White" />
+            <VerticalStackLayout x:Name="ArchiveTasksVsl" IsVisible="False">
+                <material:MaterialCard
+                    Padding="10"
+                    BackgroundColor="{AppThemeBinding Light=DarkGray,
+                                                      Dark=Transparent}"
+                    Type="Outlined">
+                    <VerticalStackLayout>
+                        <Button
+                            BackgroundColor="IndianRed"
+                            Clicked="ButtonClearArchiveTasksList_OnClicked"
+                            Text="Очистить архив" />
+                        <material:MaterialDivider Margin="10" />
+                        <CollectionView
+                            x:DataType="xviews:MainPage"
+                            ItemsSource="{Binding ArchivedKTasks}"
+                            SelectionMode="None">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <VerticalStackLayout>
+                                        <material:MaterialCard Margin="3" Type="Elevated">
+
+                                            <Grid
+                                                Padding="20,5"
+                                                x:DataType="xtables:ArchivedKTask"
+                                                ColumnDefinitions="*, *, *, auto">
+                                                <VerticalStackLayout Grid.Column="0">
+                                                    <Label Text="{Binding Name}" />
+                                                    <Label IsVisible="{Binding IsHasDescription}" Text="..." />
+                                                </VerticalStackLayout>
+
+                                                <VerticalStackLayout Grid.Column="1">
+                                                    <Label
+                                                        FontAttributes="Bold, Italic"
+                                                        FontSize="12"
+                                                        Scale="1.05"
+                                                        Text="{Binding Discipline.Name}"
+                                                        TextColor="{Binding Discipline.Color}" />
+                                                    <Label
+                                                        FontSize="12"
+                                                        Text="{Binding Deadline}"
+                                                        TextColor="Gray" />
+                                                    <Label
+                                                        FontSize="12"
+                                                        Text="{Binding DayOfWeekShortName, StringFormat='({0})'}"
+                                                        TextColor="Gray" />
+                                                </VerticalStackLayout>
+
+                                                <Label
+                                                    Grid.Column="2"
+                                                    Text="{Binding Deadline}"
+                                                    VerticalTextAlignment="Center" />
+
+                                                
+                                                <CheckBox
+                                                    Grid.Column="3"
+                                                    CheckedChanged="ButtonArchiveItem_OnClicked"
+                                                    HorizontalOptions="End"
+                                                    IsChecked="False" />
+                                            </Grid>
+                                        </material:MaterialCard>
+                                        <material:MaterialDivider Margin="3" />
+                                        <VisualStateManager.VisualStateGroups>
+                                            <VisualStateGroup x:Name="CommonStates">
+                                                <VisualState x:Name="Normal">
+                                                    <VisualState.Setters>
+                                                        <Setter Property="BackgroundColor" Value="Transparent" />
+                                                    </VisualState.Setters>
+                                                </VisualState>
+                                                <VisualState x:Name="Selected">
+                                                    <VisualState.Setters>
+                                                        <Setter Property="BackgroundColor" Value="{StaticResource Gray600}" />
+                                                    </VisualState.Setters>
+                                                </VisualState>
+                                            </VisualStateGroup>
+                                        </VisualStateManager.VisualStateGroups>
+                                    </VerticalStackLayout>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </VerticalStackLayout>
+                </material:MaterialCard>
             </VerticalStackLayout>
         </VerticalStackLayout>
     </ScrollView>

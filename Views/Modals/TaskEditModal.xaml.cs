@@ -2,6 +2,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using KapyTask.Database;
 using KapyTask.Database.Tables;
+using DatePicker = Microsoft.Maui.Controls.DatePicker;
 
 namespace KapyTask.Views.Modals;
 
@@ -312,8 +313,6 @@ public partial class TaskEditModal : ContentPage, INotifyPropertyChanged
         if (await DisplayAlertAsync("Подтверждение", "Архивировать задачу?", "Да", "Нет"))
         {
             await db.ArchivedTasks.ArchiveTask(KTask);
-            Debug.Write(KTask);
-            return;
         }
     }
 
